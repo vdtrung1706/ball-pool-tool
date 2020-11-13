@@ -1,0 +1,6 @@
+﻿height_443
+width_885
+top_207
+left_231
+right_0
+ball_0

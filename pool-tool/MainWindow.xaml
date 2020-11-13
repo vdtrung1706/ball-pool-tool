@@ -1,0 +1,40 @@
+﻿<Window x:Class="pool_tool.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:pool_tool"
+        mc:Ignorable="d" WindowState="Maximized" WindowStyle="None" 
+        AllowsTransparency="True"
+        Title="8 ball pool tool" Loaded="Window_Loaded">
+    <Window.Background>
+        <SolidColorBrush Color="Transparent"/>
+    </Window.Background>
+    <Border Padding="10">
+        <Canvas x:Name="body">
+            <StackPanel x:Name="menu" Orientation="Horizontal"
+                    AllowDrop="True" Panel.ZIndex="1"
+                    PreviewMouseLeftButtonDown="menu_PreviewMouseLeftButtonDown"
+                    PreviewMouseMove="menu_PreviewMouseMove"
+                    PreviewMouseLeftButtonUp="menu_PreviewMouseLeftButtonUp"
+                    Background="Aqua">
+                <Button x:Name="btnSetting" Click="btnSetting_Click">Setting</Button>
+            </StackPanel>
+
+            <StackPanel x:Name="container"
+                    Background="Transparent"
+                    Height="{Binding ElementName=body, Path=ActualHeight}">
+                <Border x:Name="bdTable"
+                    Height="{Binding ElementName=table, Path=ActualHeight}"
+                    Width="{Binding ElementName=table, Path=ActualWidth}"
+                    BorderBrush="Red" BorderThickness="1.5">
+                    <Canvas x:Name="cvTable" Height="100" Width="100">
+
+                    </Canvas>
+                </Border>
+
+            </StackPanel>
+        </Canvas>
+    </Border>
+    
+</Window>
