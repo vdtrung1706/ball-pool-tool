@@ -63,7 +63,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Class\TableSize.cs" />
+    <Compile Include="Class\TableConfig.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -103,9 +103,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\table-size.txt">
+    <None Include="Data\table-config.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Image\down-arrow.png" />
+    <Resource Include="Image\left-arrow.png" />
+    <Resource Include="Image\right-arrow.png" />
+    <Resource Include="Image\setting.png" />
+    <Resource Include="Image\two-ball.png" />
+    <Resource Include="Image\up-arrow.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

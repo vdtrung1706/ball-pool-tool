@@ -18,21 +18,21 @@ namespace pool_tool.Modules {
     /// Interaction logic for SettingWindow.xaml
     /// </summary>
     public partial class SettingWindow : Window {
-        TableSize tableConfig;
-        public SettingWindow(TableSize curTable) {
+        TableConfig tableConfig;
+        public SettingWindow(TableConfig curTable) {
             InitializeComponent();
-            tableConfig = new TableSize() {
+            tableConfig = new TableConfig() {
                 height = curTable.height,
                 width = curTable.width,
                 top = curTable.top,
                 left = curTable.left,
                 right= curTable.right,
                 bottom = curTable.bottom,
-                ball = curTable.ball
+                ballSize = curTable.ballSize
             };
         }
 
-        public delegate void TableChangeDelegate (TableSize newTable);
+        public delegate void TableChangeDelegate (TableConfig newTable);
         public event TableChangeDelegate SizeChange;
 
         private void Window_Loaded(object sender, RoutedEventArgs e) {
@@ -42,7 +42,7 @@ namespace pool_tool.Modules {
             tbLeft.Text = tableConfig.left.ToString();
             tbRight.Text = tableConfig.right.ToString();
             tbBottom.Text = tableConfig.bottom.ToString();
-            tbBall.Text = tableConfig.ball.ToString();
+            tbBall.Text = tableConfig.ballSize.ToString();
         }
 
         private void tbHeight_TextChanged(object sender, TextChangedEventArgs e) {
@@ -90,7 +90,7 @@ namespace pool_tool.Modules {
         private void tbBall_TextChanged(object sender, TextChangedEventArgs e) {
             double ball;
             var check = double.TryParse(tbBall.Text, out ball);
-            tableConfig.ball = check == true ? ball : 0;
+            tableConfig.ballSize = check == true ? ball : 0;
             SizeChange?.Invoke(tableConfig);
         }
 

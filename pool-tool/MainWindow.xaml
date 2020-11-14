@@ -5,36 +5,60 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:pool_tool"
         mc:Ignorable="d" WindowState="Maximized" WindowStyle="None" 
-        AllowsTransparency="True"
-        Title="8 ball pool tool" Loaded="Window_Loaded">
-    <Window.Background>
-        <SolidColorBrush Color="Transparent"/>
-    </Window.Background>
-    <Border Padding="10">
-        <Canvas x:Name="body">
-            <StackPanel x:Name="menu" Orientation="Horizontal"
-                    AllowDrop="True" Panel.ZIndex="1"
-                    PreviewMouseLeftButtonDown="menu_PreviewMouseLeftButtonDown"
-                    PreviewMouseMove="menu_PreviewMouseMove"
-                    PreviewMouseLeftButtonUp="menu_PreviewMouseLeftButtonUp"
-                    Background="Aqua">
-                <Button x:Name="btnSetting" Click="btnSetting_Click">Setting</Button>
-            </StackPanel>
+        AllowsTransparency="True" Background="Transparent"
+        Title="8 ball pool tool" Loaded="Window_Loaded" Height="768" Width="1366">
+    <Canvas x:Name="body">
+        <!--#region MENU-->
+        <StackPanel x:Name="menu"
+                    Orientation="Horizontal" 
+                    Canvas.Left="940" Canvas.Top="155" Height="25"
+                    Background="#135961"
+                    AllowDrop="True" 
+                    Panel.ZIndex="1">
+            <Button x:Name="btnSetting" Background="Transparent"
+                        Click="btnSetting_Click" 
+                        BorderThickness="0" Margin="20,0,0,0">
+                <Image Source="./Image/setting.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+            </Button>
 
-            <StackPanel x:Name="container"
+            <Button x:Name="btnBalls"
+                    Background="Transparent" BorderThickness="0">
+                <Image Source="./Image/two-ball.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+            </Button>
+
+            <Button x:Name="btnUpArrow" Background="Transparent"
+                        Click="btnSetting_Click"
+                        BorderThickness="0">
+                <Image Source="./Image/up-arrow.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+            </Button>
+            <Button x:Name="btnDownArrow"
                     Background="Transparent"
-                    Height="{Binding ElementName=body, Path=ActualHeight}">
-                <Border x:Name="bdTable"
-                    Height="{Binding ElementName=table, Path=ActualHeight}"
-                    Width="{Binding ElementName=table, Path=ActualWidth}"
-                    BorderBrush="Red" BorderThickness="1.5">
-                    <Canvas x:Name="cvTable" Height="100" Width="100">
-
-                    </Canvas>
-                </Border>
-
-            </StackPanel>
-        </Canvas>
-    </Border>
-    
+                    BorderThickness="0">
+                <Image Source="./Image/down-arrow.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+            </Button>
+            <Button x:Name="btnRightArrow"
+                    Background="Transparent" BorderThickness="0">
+                <Image Source="./Image/right-arrow.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+            </Button>
+            <Button x:Name="btnLeftArrow"
+                    Background="Transparent" BorderThickness="0">
+                <Image Source="./Image/left-arrow.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+            </Button>
+        </StackPanel>
+        <!--#endregion-->
+        <!--#region  TABLE-->
+        <Border x:Name="brdTable" Height="{Binding Path=height}" Width="{Binding Path=width}"
+                MinHeight="443" MinWidth="885" BorderBrush="Yellow" BorderThickness="1" Margin="231,207,0,0"
+                Panel.ZIndex="1">
+            <Canvas>
+                <Ellipse x:Name="ellipse1" Height="{Binding Path=ballSize, Mode=TwoWay}" Width="{Binding Path=ballSize, Mode=TwoWay}" Stroke="Green" StrokeThickness="1.5"
+                                 Canvas.Left="418" Canvas.Top="207" AllowDrop="True" 
+                                 Fill="Transparent"/>
+                <Ellipse x:Name="ellipse2" Height="{Binding Path=ballSize}" Width="{Binding Path=ballSize}" Stroke="GreenYellow" StrokeThickness="1.5"
+                                 Canvas.Left="443" Canvas.Top="207" AllowDrop="True" 
+                                 Fill="Transparent"/>
+            </Canvas>
+        </Border>
+        <!--#endregion-->
+    </Canvas>
 </Window>

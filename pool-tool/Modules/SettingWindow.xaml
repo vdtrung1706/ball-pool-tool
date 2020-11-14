@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:pool_tool.Modules"
-        mc:Ignorable="d" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d" WindowStyle="ToolWindow" WindowStartupLocation="Manual"
         Title="Table Config" Height="171" Width="154"
         Loaded="Window_Loaded">
     <StackPanel>
