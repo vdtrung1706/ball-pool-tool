@@ -45,7 +45,8 @@ namespace pool_tool.Class {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ballSize"));
             }
         }
-
+        public double menuTop { get; set; }
+        public double menuLeft { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

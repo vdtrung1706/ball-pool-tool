@@ -1,46 +1,50 @@
 ﻿<Window x:Class="pool_tool.Modules.SettingWindow"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:pool_tool.Modules"
-        mc:Ignorable="d" WindowStyle="ToolWindow" WindowStartupLocation="Manual"
-        Title="Table Config" Height="171" Width="154"
-        Loaded="Window_Loaded">
-    <StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="10,0,0,0" >
-            <Label>Hei</Label>
-            <TextBox x:Name="tbHeight" TextChanged="tbHeight_TextChanged"
-                VerticalAlignment="Center" Width="30" Height="20"/>
-            <Label>Wid</Label>
-            <TextBox  x:Name="tbWidth" TextChanged="tbWidth_TextChanged"
-                VerticalAlignment="Center" Height="20" Width="30"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="9,0,0,0">
-            <Label>Top</Label>
-            <TextBox x:Name="tbTop" TextChanged="tbTop_TextChanged"
-                VerticalAlignment="Center" Width="30" Height="20"/>
-            <Label Margin="1,0,0,0">Left</Label>
-            <TextBox x:Name="tbLeft" TextChanged="tbLeft_TextChanged"
-                VerticalAlignment="Center" Height="20" Width="30"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Label>Right</Label>
-            <TextBox x:Name="tbRight" TextChanged="tbRight_TextChanged"
-                VerticalAlignment="Center" Width="30" Height="20"/>
-            <Label Margin="3,0,0,0">Bot</Label>
-            <TextBox x:Name="tbBottom" TextChanged="tbBottom_TextChanged"
-                VerticalAlignment="Center" Height="20" Width="30"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="9,0,0,0">
-            <Label>Ball</Label>
-            <TextBox x:Name="tbBall" TextChanged="tbBall_TextChanged"
-                VerticalAlignment="Center" Width="30" Height="20"/>
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" AllowsTransparency="True"
+        Title="Table Config" Height="185" Width="179" WindowStyle="None"
+        Loaded="Window_Loaded" BorderThickness="0" Background="Transparent">
+    <Border CornerRadius="10">
+        <Border.Background>
+            <SolidColorBrush Color="#242526"/>
+        </Border.Background>
+        <StackPanel>
+            <Label Foreground="#009cf0" HorizontalContentAlignment="Center" FontWeight="DemiBold">Table Config</Label>
+            <StackPanel Orientation="Horizontal" Margin="10,10,0,0" >
+                <Label Foreground="{StaticResource PrimaryHueMidBrush}" FontStyle="Italic">Hei</Label>
+                <TextBox  x:Name="tbHeight" Width="50" Foreground="#e4e6eb" FontStyle="Italic" FontSize="11" VerticalContentAlignment="Bottom" TextChanged="tbHeight_TextChanged" Height="24"/>
+                <Label  Foreground="{StaticResource PrimaryHueMidBrush}" FontStyle="Italic">Wid</Label>
+                <TextBox  x:Name="tbWidth"  Foreground="#e4e6eb" FontSize="11" FontStyle="Italic" VerticalContentAlignment="Bottom" TextChanged="tbWidth_TextChanged" Width="50"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="9,0,0,0">
+                <Label Foreground="{StaticResource PrimaryHueMidBrush}" FontStyle="Italic" >Top</Label>
+                <TextBox x:Name="tbTop"  Foreground="#e4e6eb" FontSize="11" FontStyle="Italic" VerticalContentAlignment="Bottom" TextChanged="tbTop_TextChanged" Width="50"/>
+                <Label Foreground="{StaticResource PrimaryHueMidBrush}" Margin="1,0,0,0" FontStyle="Italic">Left</Label>
+                <TextBox x:Name="tbLeft"  Foreground="#e4e6eb" FontSize="11" FontStyle="Italic" VerticalContentAlignment="Bottom" TextChanged="tbLeft_TextChanged" Width="50"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Foreground="{StaticResource PrimaryHueMidBrush}" FontStyle="Italic">Right</Label>
+                <TextBox x:Name="tbRight" Foreground="#e4e6eb" FontSize="11" FontStyle="Italic" TextChanged="tbRight_TextChanged" Width="50"/>
+                <Label  Foreground="{StaticResource PrimaryHueMidBrush}" Margin="3,0,0,0" FontStyle="Italic">Bot</Label>
+                <TextBox x:Name="tbBottom" Foreground="#e4e6eb" FontSize="11" FontStyle="Italic" VerticalContentAlignment="Bottom" TextChanged="tbBottom_TextChanged" Width="50"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="9,0,0,0">
+                <Label  Foreground="{StaticResource PrimaryHueMidBrush}" FontStyle="Italic">Ball</Label>
+                <TextBox x:Name="tbBall"  Foreground="#e4e6eb" FontSize="11" FontStyle="Italic" VerticalContentAlignment="Bottom" TextChanged="tbBall_TextChanged" Width="50"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                <Button x:Name="btnSave" Margin="5" Click="btnSave_Click" Width="68" 
+                        Style="{StaticResource MaterialDesignOutlinedButton}" Height="27">Save</Button>
+                <Button x:Name="btnCancel" Margin="5" Click="btnCancel_Click" Width="75" Height="27"
+                        Style="{StaticResource MaterialDesignOutlinedButton}">Cancel</Button>
+            </StackPanel>
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button x:Name="btnSave" Click="btnSave_Click" Width="50" Margin="5">Save</Button>
-            <Button x:Name="btnCancel" Click="btnCancel_Click" Width="50" Margin="5">Cancel</Button>
-        </StackPanel>
-    </StackPanel>
+    </Border>
 </Window>

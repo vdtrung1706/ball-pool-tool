@@ -1,6 +1,8 @@
-﻿height_443
-width_885
-top_207
-left_231
+﻿height_441.5
+width_881
+top_220
+left_244
 right_0
 ball_29
+menuTop_165
+menuLeft_757

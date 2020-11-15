@@ -1,77 +1,81 @@
 ﻿<Window x:Class="pool_tool.MainWindow"
-        
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:pool_tool"
         mc:Ignorable="d" WindowState="Maximized" WindowStyle="None" 
-        AllowsTransparency="True"
+        AllowsTransparency="True" x:Name="mainWindow"
         Title="8 ball pool tool" Loaded="Window_Loaded" Height="768" Width="1366">
     <Window.Background>
         <SolidColorBrush Color="White" Opacity="0.05"/>
     </Window.Background>
-    <Canvas x:Name="cvBody">
+    <Canvas x:Name="cvBody" >
         <!--#region MENU-->
-        <Border Canvas.Left="815" Canvas.Top="160" Height="25"
-                Background="#2c3632" CornerRadius="10">
-            <StackPanel x:Name="menu"
-                    Orientation="Horizontal" >
-                <Button Background="Transparent"
-                        Width="35" BorderThickness="0" Margin="5,0,0,0">
-                    <Image Source="./Image/move.png" Height="17" RenderOptions.BitmapScalingMode="HighQuality"/>
+        <TextBlock x:Name="curPoint" Width="200" Foreground="White" Height="30" Canvas.Left="235" Canvas.Top="65"/>
+        <Border x:Name="brdMenu" Canvas.Left="815" Canvas.Top="160" Height="40"
+                Background="#242526" CornerRadius="10" Panel.ZIndex="2">
+            <StackPanel Orientation="Horizontal" >
+                <Button x:Name="btnMove" Style="{StaticResource MaterialDesignIconButton}" 
+                        ToolTip="Move" Height="35" Width="40" Margin="5,0,0,0" 
+                        PreviewMouseLeftButtonDown="btnMove_PreviewMouseLeftButtonDown"
+                        PreviewMouseLeftButtonUp="btnMove_PreviewMouseLeftButtonUp"
+                        PreviewMouseMove="btnMove_PreviewMouseMove">
+                    <Image Source="./Image/move.png" Height="25" Width="25" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
-                <Button x:Name="btnSetting" Background="Transparent"
-                        Click="btnSetting_Click" Width="25"
-                        BorderThickness="0">
-                    <Image Source="./Image/setting.png" Height="17" RenderOptions.BitmapScalingMode="HighQuality"/>
-                </Button>
-                
-                <Button x:Name="btnClear" Background="Transparent"
-                        Click="btnClear_Click" Width="25"
-                        BorderThickness="0" Margin="5,0,0,0">
-                    <Image Source="./Image/broom.png" Height="17" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Button x:Name="btnSetting" Style="{StaticResource MaterialDesignIconButton}" 
+                        ToolTip="Setting" Width="35" Height="35"
+                        Click="btnSetting_Click" >
+                    <Image Source="./Image/setting.png" Height="25" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
 
 
-
-
-                <Button x:Name="btnBalls" Click="btnBalls_Click"
-                    Background="Transparent" BorderThickness="0" Width="25">
-                    <Image Source="./Image/two-ball.png" Height="17" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Button x:Name="btnClear" Style="{StaticResource MaterialDesignIconButton}" 
+                        ToolTip="Clear" Width="35" Height="35" Click="btnClear_Click" Margin="5,0,0,0">
+                    <Image Source="./Image/broom.png" Height="25" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
 
-                <Button x:Name="btnLine" Background="Transparent"
-                        BorderThickness="0" Width="25">
-                    <Image Source="./Image/diagonal-line.png" Height="15" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Button x:Name="btnBalls" Click="btnBalls_Click"  Style="{StaticResource MaterialDesignIconButton}" 
+                        ToolTip="Two balls" Width="35" Height="35">
+                    <Image Source="./Image/two-ball.png" Height="20" Width="25" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
 
-                <Button x:Name="btnUpArrow" 
-                    Background="Transparent" BorderThickness="0" Margin="5,0,0,0"
-                    Click="btnUpArrow_Click">
-                    <Image Source="./Image/up-arrow.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Button x:Name="btnLine" Click="btnLine_Click"
+                        Style="{StaticResource MaterialDesignIconButton}" 
+                        ToolTip="Line" Width="35" Height="35">
+                    <Image Source="./Image/diagonal-line.png" Height="25" RenderOptions.BitmapScalingMode="HighQuality"/>
+                </Button>
+
+                <Button x:Name="btnUpArrow" Style="{StaticResource MaterialDesignIconButton}" 
+                        Width="35" Height="35" Margin="5,0,0,0" Click="btnUpArrow_Click">
+                    <Image Source="./Image/up-arrow.png" Height="30" Width="30" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
                 <Button x:Name="btnDownArrow"
-                        Background="Transparent" BorderThickness="0"
+                        Style="{StaticResource MaterialDesignIconButton}" 
+                        Width="35" Height="35"
                         Click="btnDownArrow_Click">
-                    <Image Source="./Image/down-arrow.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <Image Source="./Image/down-arrow.png" Height="30" Width="30" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
                 <Button x:Name="btnRightArrow" Click="btnRightArrow_Click"
-                    Background="Transparent" BorderThickness="0">
-                    <Image Source="./Image/right-arrow.png" Height="18" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        Style="{StaticResource MaterialDesignIconButton}" 
+                        Width="35" Height="35">
+                    <Image Source="./Image/right-arrow.png" Width="25" Height="25" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
                 <Button x:Name="btnLeftArrow" Margin="0,0,20,0" Click="btnLeftArrow_Click"
-                    Background="Transparent" BorderThickness="0">
-                    <Image Source="./Image/left-arrow.png" Height="18" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        Style="{StaticResource MaterialDesignIconButton}" 
+                        Width="35" Height="35">
+                    <Image Source="./Image/left-arrow.png" Height="25" Width="25" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
             </StackPanel>
-
         </Border>
         <!--#endregion-->
         <!--#region  TABLE-->
         <Border x:Name="brdTable" Height="{Binding Path=height}" Width="{Binding Path=width}" Background="Transparent"
-                 BorderBrush="#009cf0" MinWidth="400" MinHeight="400" BorderThickness="3" Margin="231,207,0,0">
-            <Canvas x:Name="cvtable">
+                 BorderBrush="#009cf0" MinWidth="400" MinHeight="400" BorderThickness="0" Margin="231,207,0,0"
+                 PreviewMouseLeftButtonDown="brdTable_PreviewMouseLeftButtonDown"
+                 PreviewMouseMove="brdTable_PreviewMouseMove"
+                PreviewMouseLeftButtonUp="brdTable_PreviewMouseLeftButtonUp">
+            <Canvas x:Name="cvtable" >
                 <Ellipse x:Name="ellipse1" Height="{Binding Path=ballSize}" Width="{Binding Path=ballSize}" 
                          Stroke="White" StrokeThickness="1"
                          AllowDrop="True" Visibility="Hidden"
@@ -104,9 +108,8 @@
                         </TransformGroup>
                     </Ellipse.RenderTransform>
                 </Ellipse>
-
-                <Line x:Name="line1" Stroke="Green" Opacity="0.5" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="5"/>
-                <Line x:Name="line2" Stroke="Green" Opacity="0.5" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="5"/>
+                <Line x:Name="line1" Stroke="Black" Opacity="0.5" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="5"/>
+                <Line x:Name="line2" Stroke="Black" Opacity="0.5" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="5"/>
             </Canvas>
         </Border>
         <!--#endregion-->
