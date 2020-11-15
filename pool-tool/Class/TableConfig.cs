@@ -26,7 +26,7 @@ namespace pool_tool.Class {
                 return _width;
             }
             set {
-                _height = value;
+                _width = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("width"));
             }
         }
