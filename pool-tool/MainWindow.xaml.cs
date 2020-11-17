@@ -31,13 +31,15 @@ namespace pool_tool {
             InitializeComponent();
         }
 
+        private MenuConfig menuConfig = new MenuConfig();
+
         private TableConfig tableConfig = new TableConfig();
 
         private string btnCurPressed = "";
 
         private void updateDirectLine() {
-            // Remove some lines add when using draw line
-            Helper.cleanCanvasChild(cvTable, 6, cvTable.Children.Count - 6);
+
+            Helper.disablePath(pathLines);
 
             if (btnCurPressed == "" || !ellipse1.IsEnabled || !ellipse2.IsEnabled || btnCurPressed == btnLongLine.Name) {
                 return;
@@ -81,8 +83,89 @@ namespace pool_tool {
 
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e) {
+            #region READ FILE SETTING
+            var line = "";
+            using (var tableFile = new StreamReader("./Data/table-config.txt")) {
+                while ((line = tableFile.ReadLine()) != null) {
+                    var strValue = line.Split('_');
+                    double value = 0;
+                    double.TryParse(strValue[1], out value);
 
-        private void writeSettingFile(Point menuPos, string message = "") {
+                    switch (strValue[0]) {
+                        case "height":
+                            tableConfig.height = value;
+                            break;
+                        case "width":
+                            tableConfig.width = value;
+                            break;
+                        case "top":
+                            tableConfig.top = value;
+                            break;
+                        case "left":
+                            tableConfig.left = value;
+                            break;
+                        case "right":
+                            tableConfig.right = value;
+                            break;
+                        case "bottom":
+                            tableConfig.bottom = value;
+                            break;
+                        case "ball":
+                            tableConfig.ballSize = value;
+                            break;
+                    }
+                }
+            }
+            using (var menuFile = new StreamReader("./Data/menu-config.txt")) {
+                while ((line = menuFile.ReadLine()) != null) {
+                    var strValue = line.Split('_');
+                    double value = 0;
+                    double.TryParse(strValue[1], out value);
+
+                    switch (strValue[0]) {
+                        case "top":
+                            menuConfig.top = value;
+                            break;
+                        case "left":
+                            menuConfig.left = value;
+                            break;
+                    }
+                }
+            }
+
+
+            brdTable.DataContext = tableConfig;
+            brdTable.Margin = new Thickness(tableConfig.left, tableConfig.top, tableConfig.right, tableConfig.bottom);
+            ellipse1.DataContext = ellipse2.DataContext = tableConfig;
+
+            Canvas.SetLeft(brdMenu, menuConfig.left);
+            Canvas.SetTop(brdMenu, menuConfig.top);
+            #endregion
+        }
+
+        #region MENU
+
+        private void SettingScreen_SizeChange(TableConfig newTable, string mess = "") {
+            brdTable.DataContext = newTable;
+            brdTable.Margin = new Thickness(newTable.left, newTable.top, newTable.right, newTable.bottom);
+            ellipse1.DataContext = ellipse2.DataContext = newTable;
+            if (mess == "save") {
+                writeSettingFile(newTable);
+                brdTable.BorderThickness = new Thickness(0);
+            }
+            else if (mess != "") {
+                brdTable.BorderThickness = new Thickness(0);
+            }
+        }
+
+        #endregion
+
+
+        #region MENU BUTTON
+
+
+        private void writeSettingFile(TableConfig tableConfig) {
             using (StreamWriter writer = new StreamWriter("./Data/table-config.txt")) {
                 writer.WriteLine($"height_{tableConfig.height}");
                 writer.WriteLine($"width_{tableConfig.width}");
@@ -90,110 +173,22 @@ namespace pool_tool {
                 writer.WriteLine($"left_{tableConfig.left}");
                 writer.WriteLine($"right_{tableConfig.right}");
                 writer.WriteLine($"ball_{tableConfig.ballSize}");
-                writer.WriteLine($"menuTop_{menuPos.Y}");
-                writer.WriteLine($"menuLeft_{menuPos.X}");
-                if (message.Length > 0) {
-                    MessageBox.Show("Saved!", "Table Config", MessageBoxButton.OK);
-                }
             }
         }
 
-
-        private void Window_Loaded(object sender, RoutedEventArgs e) {
-            #region READ FILE SETTING
-            var line = "";
-            var tableFile = new StreamReader("./Data/table-config.txt");
-            while ((line = tableFile.ReadLine()) != null) {
-                var strValue = line.Split('_');
-                double value = 0;
-                double.TryParse(strValue[1], out value);
-
-                switch (strValue[0]) {
-                    case "height":
-                        tableConfig.height = value;
-                        break;
-                    case "width":
-                        tableConfig.width = value;
-                        break;
-                    case "top":
-                        tableConfig.top = value;
-                        break;
-                    case "left":
-                        tableConfig.left = value;
-                        break;
-                    case "right":
-                        tableConfig.right = value;
-                        break;
-                    case "bottom":
-                        tableConfig.bottom = value;
-                        break;
-                    case "ball":
-                        tableConfig.ballSize = value;
-                        break;
-                    case "menuTop":
-                        tableConfig.menuTop = value;
-                        break;
-                    default:
-                        tableConfig.menuLeft = value;
-                        break;
-                }
-            }
-            brdTable.DataContext = tableConfig;
-            brdTable.Margin = new Thickness(tableConfig.left, tableConfig.top, tableConfig.right, tableConfig.bottom);
-            ellipse1.DataContext = ellipse2.DataContext = tableConfig;
-
-            Canvas.SetLeft(brdMenu, tableConfig.menuLeft);
-            Canvas.SetTop(brdMenu, tableConfig.menuTop);
-            #endregion
-        }
-
-        #region MENU
-
-        private void SettingScreen_SizeChange(TableConfig newTable) {
-            tableConfig = newTable;
-            brdTable.DataContext = tableConfig;
-            brdTable.Margin = new Thickness(tableConfig.left, tableConfig.top, tableConfig.right, tableConfig.bottom);
-            ellipse1.DataContext = ellipse2.DataContext = tableConfig;
-        }
-
-        #endregion
-
-
-        #region MENU BUTTON
         private void btnSetting_Click(object sender, RoutedEventArgs e) {
 
             brdTable.BorderThickness = new Thickness(1);
 
-            var oldTable = new TableConfig() {
-                height = tableConfig.height,
-                width = tableConfig.width,
-                top = tableConfig.top,
-                left = tableConfig.left,
-                right = tableConfig.right,
-                bottom = tableConfig.bottom,
-                ballSize = tableConfig.ballSize
-            };
             var settingScreen = new SettingWindow(tableConfig);
             settingScreen.SizeChange += SettingScreen_SizeChange;
+            settingScreen.Show();
 
-            var menuPos = brdMenu.TransformToAncestor(cvBody).Transform(new Point(0, 0));
-
-
-            if (settingScreen.ShowDialog() == true) {
-                writeSettingFile(menuPos, "Saved");
-            }
-            else {
-                tableConfig = oldTable;
-                brdTable.Height = tableConfig.height;
-                brdTable.Width = tableConfig.width;
-                brdTable.Margin = new Thickness(tableConfig.left, tableConfig.top, tableConfig.right, tableConfig.bottom);
-            }
-            brdTable.BorderThickness = new Thickness(0);
         }
 
 
         private void btnBalls_Click(object sender, RoutedEventArgs e) {
-            if (!ellipse1.IsEnabled && !ellipse2.IsEnabled) {
+            if (!ellipse2.IsEnabled) {
                 Helper.endableEllipse(ellipse1);
                 Helper.endableEllipse(ellipse2);
 
@@ -210,7 +205,7 @@ namespace pool_tool {
             }
             Helper.resetLinePos(line1);
             Helper.resetLinePos(line2);
-            Helper.cleanCanvasChild(cvTable, 6, cvTable.Children.Count - 6);
+            Helper.cleanCanvasChild(cvTable, 7, cvTable.Children.Count - 7);
             btnCurPressed = "";
         }
 
@@ -218,6 +213,8 @@ namespace pool_tool {
             btnCurPressed = btnDownArrow.Name;
             Helper.resetLinePos(line1);
             Helper.resetLinePos(line2);
+            Helper.endableEllipse(ellipse1);
+            Helper.endableEllipse(ellipse2);
             updateDirectLine();
         }
 
@@ -226,10 +223,11 @@ namespace pool_tool {
             Helper.disableEllipse(ellipse1);
             Helper.disableEllipse(ellipse2);
 
+            Helper.resetLinePos(line);
             Helper.resetLinePos(line1);
             Helper.resetLinePos(line2);
 
-            Helper.cleanCanvasChild(cvTable, 6, cvTable.Children.Count - 6);
+            Helper.cleanCanvasChild(cvTable, 7, cvTable.Children.Count - 7);
             Helper.disablePath(pathLines);
             Helper.disableEllipse(ellipseMove);
             btnCurPressed = "";
@@ -240,6 +238,8 @@ namespace pool_tool {
             btnCurPressed = btnUpArrow.Name;
             Helper.resetLinePos(line1);
             Helper.resetLinePos(line2);
+            Helper.endableEllipse(ellipse1);
+            Helper.endableEllipse(ellipse2);
             updateDirectLine();
         }
 
@@ -247,6 +247,9 @@ namespace pool_tool {
             btnCurPressed = btnRightArrow.Name;
             Helper.resetLinePos(line1);
             Helper.resetLinePos(line2);
+
+            Helper.endableEllipse(ellipse1);
+            Helper.endableEllipse(ellipse2);
             updateDirectLine();
         }
 
@@ -254,16 +257,18 @@ namespace pool_tool {
             btnCurPressed = btnLeftArrow.Name;
             Helper.resetLinePos(line1);
             Helper.resetLinePos(line2);
+
+            Helper.endableEllipse(ellipse1);
+            Helper.endableEllipse(ellipse2);
             updateDirectLine();
         }
         private void btnLine_Click(object sender, RoutedEventArgs e) {
-            btnClear_Click(sender, e);
             btnCurPressed = oneLine.Name;
         }
 
         #endregion
 
-        #region TWO BALLS
+        #region TWO BALLSd
 
         private void ellipse1_MouseDown(object sender, MouseButtonEventArgs e) {
             var ellipse = sender as Ellipse;
@@ -303,31 +308,31 @@ namespace pool_tool {
         private void brdTable_PreviewMouseMove(object sender, MouseEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed && btnCurPressed == oneLine.Name) {
                 var curPos = e.GetPosition(cvTable);
-                line1.X2 = curPos.X;
-                line1.Y2 = curPos.Y;
+                line.X2 = curPos.X;
+                line.Y2 = curPos.Y;
             }
         }
 
         private void brdTable_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed && btnCurPressed == oneLine.Name) {
                 var curPos = e.GetPosition(cvTable);
-                line1.X1 = curPos.X;
-                line1.Y1 = curPos.Y;
+                line.X1 = curPos.X;
+                line.Y1 = curPos.Y;
             }
         }
 
         private void brdTable_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
             if (btnCurPressed == oneLine.Name) {
-                var line = new Line() {
+                var newLine = new Line() {
                     Stroke = new SolidColorBrush(Colors.Black),
                     Opacity = 0.7,
                     StrokeThickness = 2,
-                    X1 = line1.X1,
-                    Y1 = line1.Y1,
-                    X2 = line1.X2,
-                    Y2 = line1.Y2
+                    X1 = line.X1,
+                    Y1 = line.Y1,
+                    X2 = line.X2,
+                    Y2 = line.Y2
                 };
-                cvTable.Children.Add(line);
+                cvTable.Children.Add(newLine);
             }
         }
 
@@ -341,7 +346,13 @@ namespace pool_tool {
             if (btnMove.IsMouseCaptured) {
                 btnMove.ReleaseMouseCapture();
                 var menuPos = brdMenu.TransformToAncestor(cvBody).Transform(new Point(0, 0));
-                writeSettingFile(menuPos);
+                menuConfig.top = menuPos.Y;
+                menuConfig.left = menuPos.X;
+
+                using (StreamWriter writer = new StreamWriter("./Data/menu-config.txt")) {
+                    writer.WriteLine($"top_{menuConfig.top}");
+                    writer.WriteLine($"left_{menuConfig.left}");
+                }
             }
         }
 
@@ -378,36 +389,33 @@ namespace pool_tool {
                 CurPoint.Text = mousePos.ToString();
 
                 var listPos = new List<Point>();
-                listPos.Add(ballPos);
 
+                listPos.Add(Helper.roundPos(ballPos, 3));
+
+                var secondPos = new Point();
                 var firstPos = ballPos;
                 if (mousePos.X > 0 && mousePos.Y < 0 && mousePos.X < cvTable.ActualWidth) {
-                    var secondPos = new Point(mousePos.X, 0);
-                    listPos.Add(secondPos);
-                    listPos = Helper.getListPos(listPos, firstPos, secondPos, 4, cvTable);
-
+                    secondPos = new Point(mousePos.X, 0);
                 }
 
                 // table left
                 else if (mousePos.X < 0 && mousePos.Y > 0 && mousePos.Y < cvTable.ActualHeight) {
-                    var secondPos = new Point(0, mousePos.Y);
-                    listPos.Add(secondPos);
-                    listPos = Helper.getListPos(listPos, firstPos, secondPos, 4, cvTable);
+                    secondPos = new Point(0, mousePos.Y);
+
                 }
 
                 // table bottom
                 else if (mousePos.X > 0 && mousePos.Y > cvTable.ActualHeight && mousePos.X < cvTable.ActualWidth) {
-                    var secondPos = new Point(mousePos.X, cvTable.ActualHeight);
-                    listPos.Add(secondPos);
-                    listPos = Helper.getListPos(listPos, firstPos, secondPos, 4, cvTable);
+                    secondPos = new Point(mousePos.X, cvTable.ActualHeight);
+
                 }
 
                 // table right
                 else if (mousePos.X > cvTable.ActualWidth && mousePos.Y <= cvTable.ActualHeight && mousePos.Y > 0) {
-                    var secondPos = new Point(cvTable.ActualWidth, mousePos.Y);
-                    listPos.Add(secondPos);
-                    listPos = Helper.getListPos(listPos, firstPos, secondPos, 4, cvTable);
+                    secondPos = new Point(cvTable.ActualWidth, mousePos.Y);
                 }
+                listPos.Add(Helper.roundPos(secondPos, 3));
+                listPos = Helper.getListPos(listPos, firstPos, secondPos, 4, cvTable);
                 Helper.enablePath(pathLines, listPos);
             }
         }

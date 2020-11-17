@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,21 +19,24 @@ namespace pool_tool.Modules {
     /// Interaction logic for SettingWindow.xaml
     /// </summary>
     public partial class SettingWindow : Window {
+        TableConfig oldTable = new TableConfig();
         TableConfig tableConfig;
-        public SettingWindow(TableConfig curTable) {
+        public SettingWindow(TableConfig oldTable) {
             InitializeComponent();
+
+            this.oldTable = oldTable;
             tableConfig = new TableConfig() {
-                height = curTable.height,
-                width = curTable.width,
-                top = curTable.top,
-                left = curTable.left,
-                right= curTable.right,
-                bottom = curTable.bottom,
-                ballSize = curTable.ballSize
+                height = oldTable.height,
+                width = oldTable.width,
+                top = oldTable.top,
+                left = oldTable.left,
+                right = oldTable.right,
+                bottom = oldTable.bottom,
+                ballSize = oldTable.ballSize
             };
         }
 
-        public delegate void TableChangeDelegate (TableConfig newTable);
+        public delegate void TableChangeDelegate(TableConfig newTable, string mess = "");
         public event TableChangeDelegate SizeChange;
 
         private void Window_Loaded(object sender, RoutedEventArgs e) {
@@ -95,11 +99,14 @@ namespace pool_tool.Modules {
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e) {
-            DialogResult = true;
+            SizeChange?.Invoke(tableConfig, "save");
+            this.Close();
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e) {
-            DialogResult = false;
+            SizeChange?.Invoke(oldTable, "cancel");
+            this.Close();
         }
+
     }
 }

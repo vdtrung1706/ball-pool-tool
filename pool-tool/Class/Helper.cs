@@ -35,7 +35,7 @@ namespace pool_tool.Class {
             }
         }
 
-        public static Point nextPos(Point firstPos, Point secondPos, Canvas table) {
+        public static Point nextPos(Point firstPos, Point secondPos, Canvas table, int lineCount = 0) {
 
             var nextPos = new Point(0, 0);
 
@@ -58,6 +58,17 @@ namespace pool_tool.Class {
                 else {
                     nextPos = symPos;
                 }
+
+                if (lineCount == 2) {
+                    nextPos.X += firstPos.X > secondPos.X ? -50 : 50;
+                }
+
+                if (lineCount == 3) {
+                    nextPos.X += firstPos.X > secondPos.X ? -60 : 60;
+                }
+                if (lineCount == 4) {
+                    nextPos.X += firstPos.X > secondPos.X ? -70 : 70;
+                }
             }
 
             // table left
@@ -72,6 +83,17 @@ namespace pool_tool.Class {
                 }
                 else {
                     nextPos = symPos;
+                }
+                if (lineCount == 2) {
+                    nextPos.Y += firstPos.Y > secondPos.Y ? -50 : 50;
+                }
+
+                if (lineCount == 3) {
+                    nextPos.Y += firstPos.Y > secondPos.Y ? -60 : 60;
+                }
+
+                if (lineCount == 4) {
+                    nextPos.Y += firstPos.Y > secondPos.Y ? -70 : 70;
                 }
             }
 
@@ -88,6 +110,7 @@ namespace pool_tool.Class {
                 else {
                     nextPos = symPos;
                 }
+
             }
 
             // table right
@@ -102,6 +125,18 @@ namespace pool_tool.Class {
                 }
                 else {
                     nextPos = symPos;
+                }
+
+                if (lineCount == 2) {
+                    nextPos.Y += firstPos.Y > secondPos.Y ? -50 : 50;
+                }
+
+                if (lineCount == 3) {
+                    nextPos.Y += firstPos.Y > secondPos.Y ? -60 : 60;
+                }
+
+                if (lineCount == 4) {
+                    nextPos.Y += firstPos.Y > secondPos.Y ? -70 : 70;
                 }
             }
             return nextPos;
@@ -152,8 +187,8 @@ namespace pool_tool.Class {
 
         public static List<Point> getListPos(List<Point> listPos, Point firstPos, Point secondPos, int lineCount, Canvas canvas) {
             for (int i = 0; i < lineCount; i++) {
-                var nextPos = Helper.nextPos(firstPos, secondPos, canvas);
-                nextPos = roundPos(nextPos, 8);
+                var nextPos = Helper.nextPos(firstPos, secondPos, canvas, i + 1);
+                nextPos = roundPos(nextPos, 3);
                 listPos.Add(nextPos);
                 firstPos = secondPos;
                 secondPos = nextPos;

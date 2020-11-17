@@ -67,7 +67,7 @@
                 </Button>
 
                 <Button x:Name="btnLongLine" Margin="0,0,20,0" Click="btnLongLine_Click"
-                        Style="{StaticResource MaterialDesignIconButton}" 
+                        Style="{StaticResource MaterialDesignIconButton}" ToolTip="TrickShot"
                         Width="35" Height="35">
                     <Image Source="./Image/long-line.png" Height="25" Width="25" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
@@ -76,12 +76,17 @@
         <!--#endregion-->
         <TextBlock x:Name="CurPoint" Width="200" Height="30" Foreground="Red" Canvas.Left="665" Canvas.Top="265"/>
         <!--#region  TABLE-->
+
+
+        <Polygon x:Name="pgCornerTop" Stroke="White" Fill="Black" StrokeThickness="1" Points="0,0 50,0 0,50" Canvas.Left="165" Canvas.Top="190"></Polygon>
+        <Polygon x:Name="pgCornerBot" Stroke="White" Fill="Black" StrokeThickness="1" Points="50,50 50,0 0,50" Canvas.Left="760" Canvas.Top="270"></Polygon>
+
         <Border x:Name="brdTable" Height="{Binding Path=height}" Width="{Binding Path=width}" Background="Transparent"
-                 BorderBrush="#009cf0" MinWidth="400" MinHeight="400" BorderThickness="0" Margin="231,207,0,0"
+                 BorderBrush="#009cf0" MinWidth="400" MinHeight="400" Padding="0" BorderThickness="0" Margin="231,207,0,0"
                  PreviewMouseLeftButtonDown="brdTable_PreviewMouseLeftButtonDown"
                  PreviewMouseMove="brdTable_PreviewMouseMove"
                 PreviewMouseLeftButtonUp="brdTable_PreviewMouseLeftButtonUp">
-            <Canvas x:Name="cvTable" >
+            <Canvas x:Name="cvTable">
                 <Ellipse x:Name="ellipse1" Height="{Binding Path=ballSize}" Width="{Binding Path=ballSize}" 
                          Stroke="#FFFFFF" StrokeThickness="1.5" Canvas.Left="200" Canvas.Top="200"
                          AllowDrop="True" Visibility="Hidden" IsEnabled="False"
@@ -116,7 +121,7 @@
                 </Ellipse>
                 <Line x:Name="line1" Stroke="Green" Opacity="0.8" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="2"/>
                 <Line x:Name="line2" Stroke="Green" Opacity="0.8" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="2"/>
-                <Ellipse x:Name="ellipseMove" Height="25" Width="25" Stroke="#e3451e" Fill="#fc8c03" 
+                <Ellipse x:Name="ellipseMove" Height="20" Width="20" Stroke="#e3451e" Fill="#ff00ae" 
                          MouseLeftButtonDown="ellipseMove_MouseLeftButtonDown"
                          MouseLeftButtonUp="ellipseMove_MouseLeftButtonUp" Visibility="Hidden" IsEnabled="False"
                          MouseMove="ellipseMove_MouseMove" Canvas.Left="373" Canvas.Top="-43">
@@ -127,6 +132,7 @@
                         </TransformGroup>
                     </Ellipse.RenderTransform>
                 </Ellipse>
+                <Line x:Name="line" Stroke="Green" Opacity="0.8" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="2"/>
                 <Path x:Name="pathLines" Stroke="Green" Opacity="0.8" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="2" />
             </Canvas>
         </Border>
