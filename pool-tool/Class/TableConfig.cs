@@ -32,8 +32,6 @@ namespace pool_tool.Class {
         }
         public double top { get; set; }
         public double left { get; set; }
-        public double right { get; set; }
-        public double bottom { get; set; }
 
         private double _ballSize;
         public double ballSize {

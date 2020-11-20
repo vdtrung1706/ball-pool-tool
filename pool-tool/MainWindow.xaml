@@ -5,135 +5,129 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:pool_tool"
         mc:Ignorable="d" WindowState="Maximized" WindowStyle="None" 
-        AllowsTransparency="True" x:Name="mainWindow"
+        AllowsTransparency="True" x:Name="mainWindow" Keyboard.KeyDown="mainWindow_KeyDown" 
         Title="8 ball pool tool" Loaded="Window_Loaded" Height="768" Width="1366">
     <Window.Background>
         <SolidColorBrush Color="White" Opacity="0.05"/>
     </Window.Background>
-    <Canvas x:Name="cvBody" >
+    <Canvas x:Name="cvBody" Height="768" Width="1366">
         <!--#region MENU-->
-        <Border x:Name="brdMenu" Canvas.Left="815" Canvas.Top="160" Height="40"
+        <Border x:Name="brdMenu" Canvas.Left="815" Canvas.Top="160" Height="20"
                 Background="#242526" CornerRadius="10" Panel.ZIndex="2">
             <StackPanel Orientation="Horizontal" >
                 <Button x:Name="btnMove" Style="{StaticResource MaterialDesignIconButton}" 
-                        ToolTip="Move" Height="35" Width="40" Margin="5,0,0,0" 
+                        ToolTip="Move" Height="20" Width="20" Margin="5,0,0,0" 
                         PreviewMouseLeftButtonDown="btnMove_PreviewMouseLeftButtonDown"
                         PreviewMouseLeftButtonUp="btnMove_PreviewMouseLeftButtonUp"
                         PreviewMouseMove="btnMove_PreviewMouseMove">
-                    <Image Source="./Image/move.png" Height="25" Width="25" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <Image Source="./Image/move.png" Height="10" Width="10" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
                 <Button x:Name="btnSetting" Style="{StaticResource MaterialDesignIconButton}" 
-                        ToolTip="Setting" Width="35" Height="35"
+                        ToolTip="Setting-S" Width="20" Height="20"
                         Click="btnSetting_Click" >
-                    <Image Source="./Image/setting.png" Height="25" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <Image Source="./Image/setting.png" Height="10" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
 
 
                 <Button x:Name="btnClear" Style="{StaticResource MaterialDesignIconButton}" 
-                        ToolTip="Clear" Width="35" Height="35" Click="btnClear_Click" Margin="5,0,0,0">
-                    <Image Source="./Image/broom.png" Height="25" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        ToolTip="Clean-C" Width="20" Height="20" Click="btnClear_Click" >
+                    <Image Source="./Image/broom.png" Height="10" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
 
                 <Button x:Name="btnBalls" Click="btnBalls_Click"  Style="{StaticResource MaterialDesignIconButton}" 
-                        ToolTip="Two balls" Width="35" Height="35">
-                    <Image Source="./Image/two-ball.png" Height="20" Width="25" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        ToolTip="Two balls-B" Width="20" Height="20">
+                    <Image Source="./Image/two-ball.png" Height="10" Width="10" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
 
                 <Button x:Name="oneLine" Click="btnLine_Click"
                         Style="{StaticResource MaterialDesignIconButton}" 
-                        ToolTip="Line" Width="35" Height="35">
-                    <Image Source="./Image/diagonal-line.png" Height="25" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        ToolTip="Line-L" Width="20" Height="20">
+                    <Image Source="./Image/diagonal-line.png" Height="10" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
 
-                <Button x:Name="btnUpArrow" Style="{StaticResource MaterialDesignIconButton}" 
-                        Width="35" Height="35" Margin="5,0,0,0" Click="btnUpArrow_Click">
-                    <Image Source="./Image/up-arrow.png" Height="30" Width="30" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Button x:Name="btnUpArrow" Style="{StaticResource MaterialDesignIconButton}" ToolTip="Directshot-tab"
+                        Width="20" Height="20" Click="btnUpArrow_Click">
+                    <Image Source="./Image/up-arrow.png" Height="10" Width="10" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
                 <Button x:Name="btnDownArrow"
                         Style="{StaticResource MaterialDesignIconButton}" 
-                        Width="35" Height="35"
+                        Width="20" Height="20"
                         Click="btnDownArrow_Click">
-                    <Image Source="./Image/down-arrow.png" Height="30" Width="30" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <Image Source="./Image/down-arrow.png" Height="10" Width="10" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
                 <Button x:Name="btnRightArrow" Click="btnRightArrow_Click"
                         Style="{StaticResource MaterialDesignIconButton}" 
-                        Width="35" Height="35">
-                    <Image Source="./Image/right-arrow.png" Width="25" Height="25" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        Width="20" Height="20">
+                    <Image Source="./Image/right-arrow.png" Width="10" Height="10" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
-                <Button x:Name="btnLeftArrow" Margin="0,0,20,0" Click="btnLeftArrow_Click"
+                <Button x:Name="btnLeftArrow" Click="btnLeftArrow_Click"
                         Style="{StaticResource MaterialDesignIconButton}" 
-                        Width="35" Height="35">
-                    <Image Source="./Image/left-arrow.png" Height="25" Width="25" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        Width="20" Height="20">
+                    <Image Source="./Image/left-arrow.png" Height="10" Width="10" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
 
-                <Button x:Name="btnLongLine" Margin="0,0,20,0" Click="btnLongLine_Click"
-                        Style="{StaticResource MaterialDesignIconButton}" ToolTip="TrickShot"
-                        Width="35" Height="35">
-                    <Image Source="./Image/long-line.png" Height="25" Width="25" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Button x:Name="btnLongLine" Click="btnLongLine_Click"
+                        Style="{StaticResource MaterialDesignIconButton}" ToolTip="TrickShot-T"
+                        Width="20" Height="20">
+                    <Image Source="./Image/long-line.png" Height="10" Width="10" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
             </StackPanel>
         </Border>
         <!--#endregion-->
-        <TextBlock x:Name="CurPoint" Width="200" Height="30" Foreground="Red" Canvas.Left="665" Canvas.Top="265"/>
         <!--#region  TABLE-->
 
+        <Ellipse x:Name="cornerTop" Stroke="Aqua" Height="20" Width="20" Fill="Pink" StrokeThickness="1"
+                 PreviewMouseLeftButtonDown="cornerTop_PreviewMouseLeftButtonDown" Visibility="Hidden"
+                 PreviewMouseLeftButtonUp="cornerTop_PreviewMouseLeftButtonUp"
+                 PreviewMouseMove="cornerTop_PreviewMouseMove" RenderTransformOrigin="7.875,10.95" Canvas.Left="483" Canvas.Top="159"/>
+        <Ellipse x:Name="cornerBot" Stroke="Aqua" Height="20" Width="20" Fill="Pink" StrokeThickness="1" Visibility="Hidden"
+                 PreviewMouseLeftButtonDown="cornerBot_PreviewMouseLeftButtonDown"
+                 PreviewMouseLeftButtonUp="cornerBot_PreviewMouseLeftButtonUp"
+                 PreviewMouseMove="cornerBot_PreviewMouseMove" Canvas.Left="204" Canvas.Top="315"/>
 
-        <Polygon x:Name="pgCornerTop" Stroke="White" Fill="Black" StrokeThickness="1" Points="0,0 50,0 0,50" Canvas.Left="165" Canvas.Top="190"></Polygon>
-        <Polygon x:Name="pgCornerBot" Stroke="White" Fill="Black" StrokeThickness="1" Points="50,50 50,0 0,50" Canvas.Left="760" Canvas.Top="270"></Polygon>
-
-        <Border x:Name="brdTable" Height="{Binding Path=height}" Width="{Binding Path=width}" Background="Transparent"
-                 BorderBrush="#009cf0" MinWidth="400" MinHeight="400" Padding="0" BorderThickness="0" Margin="231,207,0,0"
+        <Border x:Name="brdTable" Height="{Binding Path=height}" Width="{Binding Path=width}" 
+                 Background="Transparent"
+                 BorderBrush="#a1fc03" MinWidth="50" MinHeight="50" Padding="0" BorderThickness="0"
                  PreviewMouseLeftButtonDown="brdTable_PreviewMouseLeftButtonDown"
-                 PreviewMouseMove="brdTable_PreviewMouseMove"
-                PreviewMouseLeftButtonUp="brdTable_PreviewMouseLeftButtonUp">
+                 PreviewMouseMove="brdTable_PreviewMouseMove" Panel.ZIndex="-1"
+                 PreviewMouseLeftButtonUp="brdTable_PreviewMouseLeftButtonUp">
             <Canvas x:Name="cvTable">
                 <Ellipse x:Name="ellipse1" Height="{Binding Path=ballSize}" Width="{Binding Path=ballSize}" 
-                         Stroke="#FFFFFF" StrokeThickness="1.5" Canvas.Left="200" Canvas.Top="200"
-                         AllowDrop="True" Visibility="Hidden" IsEnabled="False"
+                         Stroke="#ff1ffb" StrokeThickness="0.7"
+                         Visibility="Hidden" IsEnabled="False"
                          MouseDown="ellipse1_MouseDown"
                          MouseUp="ellipse1_MouseUp"
                          MouseMove="ellipse1_MouseMove">
                     <Ellipse.Fill>
                         <SolidColorBrush Color="White" Opacity="0.05"/>
                     </Ellipse.Fill>
-                    <Ellipse.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform />
-                            <TranslateTransform />
-                        </TransformGroup>
-                    </Ellipse.RenderTransform>
+
                 </Ellipse>
                 <Ellipse x:Name="ellipse2" Height="{Binding Path=ballSize}" Width="{Binding Path=ballSize}" 
-                         Stroke="#f7ff14" StrokeThickness="1.5"
-                         AllowDrop="True" Visibility="Hidden" IsEnabled="False"
+                         Stroke="#12ff81" StrokeThickness="0.7"
+                         Visibility="Hidden" IsEnabled="False"
                          MouseDown="ellipse1_MouseDown"
                          MouseUp="ellipse1_MouseUp"
                          MouseMove="ellipse1_MouseMove">
                     <Ellipse.Fill>
                         <SolidColorBrush Color="White" Opacity="0.05"/>
                     </Ellipse.Fill>
-                    <Ellipse.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform />
-                            <TranslateTransform />
-                        </TransformGroup>
-                    </Ellipse.RenderTransform>
+
                 </Ellipse>
-                <Line x:Name="line1" Stroke="Green" Opacity="0.8" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="2"/>
-                <Line x:Name="line2" Stroke="Green" Opacity="0.8" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="2"/>
-                <Ellipse x:Name="ellipseMove" Height="20" Width="20" Stroke="#e3451e" Fill="#ff00ae" 
+                <Line x:Name="line1" Stroke="Black" Opacity="0.6" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="1.5"/>
+                <Line x:Name="line2" Stroke="Black" Opacity="0.6" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="1.5"/>
+                <Ellipse x:Name="ellipseMove" Height="17" Width="17" Stroke="White" Fill="#6dff2e"
                          MouseLeftButtonDown="ellipseMove_MouseLeftButtonDown"
                          MouseLeftButtonUp="ellipseMove_MouseLeftButtonUp" Visibility="Hidden" IsEnabled="False"
-                         MouseMove="ellipseMove_MouseMove" Canvas.Left="373" Canvas.Top="-43">
-                    <Ellipse.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform />
-                            <TranslateTransform />
-                        </TransformGroup>
-                    </Ellipse.RenderTransform>
+                         MouseMove="ellipseMove_MouseMove">
+
                 </Ellipse>
-                <Line x:Name="line" Stroke="Green" Opacity="0.8" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="2"/>
-                <Path x:Name="pathLines" Stroke="Green" Opacity="0.8" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="2" />
+                <Line x:Name="line" Stroke="#daff21" Opacity="0.7" StrokeEndLineCap="Triangle" StrokeStartLineCap="Square" StrokeThickness="1.5"/>
+                <Line x:Name="line3" Stroke="#daff21" Opacity="0.7" StrokeEndLineCap="Triangle" StrokeStartLineCap="Square" StrokeThickness="1.5"/>
+                
+                <Line x:Name="line4" Stroke="Black" Opacity="0.7" StrokeEndLineCap="Triangle" StrokeStartLineCap="Square" StrokeThickness="1.5"/>
+
+                <Path x:Name="pathLines" Stroke="#daff21" Opacity="0.7" StrokeEndLineCap="Triangle" StrokeStartLineCap="Square" StrokeThickness="1.5" />
             </Canvas>
         </Border>
         <!--#endregion-->

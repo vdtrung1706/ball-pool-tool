@@ -30,8 +30,6 @@ namespace pool_tool.Modules {
                 width = oldTable.width,
                 top = oldTable.top,
                 left = oldTable.left,
-                right = oldTable.right,
-                bottom = oldTable.bottom,
                 ballSize = oldTable.ballSize
             };
         }
@@ -40,56 +38,9 @@ namespace pool_tool.Modules {
         public event TableChangeDelegate SizeChange;
 
         private void Window_Loaded(object sender, RoutedEventArgs e) {
-            tbHeight.Text = tableConfig.height.ToString();
-            tbWidth.Text = tableConfig.width.ToString();
-            tbTop.Text = tableConfig.top.ToString();
-            tbLeft.Text = tableConfig.left.ToString();
-            tbRight.Text = tableConfig.right.ToString();
-            tbBottom.Text = tableConfig.bottom.ToString();
             tbBall.Text = tableConfig.ballSize.ToString();
         }
 
-        private void tbHeight_TextChanged(object sender, TextChangedEventArgs e) {
-            double height;
-            var check = double.TryParse(tbHeight.Text, out height);
-            tableConfig.height = check == true ? height : 0;
-            SizeChange?.Invoke(tableConfig);
-        }
-
-        private void tbWidth_TextChanged(object sender, TextChangedEventArgs e) {
-            double width;
-            var check = double.TryParse(tbWidth.Text, out width);
-            tableConfig.width = check == true ? width : 0;
-            SizeChange?.Invoke(tableConfig);
-        }
-
-        private void tbTop_TextChanged(object sender, TextChangedEventArgs e) {
-            double top;
-            var check = double.TryParse(tbTop.Text, out top);
-            tableConfig.top = check == true ? top : 0;
-            SizeChange?.Invoke(tableConfig);
-        }
-
-        private void tbLeft_TextChanged(object sender, TextChangedEventArgs e) {
-            double left;
-            var check = double.TryParse(tbLeft.Text, out left);
-            tableConfig.left = check == true ? left : 0;
-            SizeChange?.Invoke(tableConfig);
-        }
-
-        private void tbRight_TextChanged(object sender, TextChangedEventArgs e) {
-            double right;
-            var check = double.TryParse(tbRight.Text, out right);
-            tableConfig.right = check == true ? right : 0;
-            SizeChange?.Invoke(tableConfig);
-        }
-
-        private void tbBottom_TextChanged(object sender, TextChangedEventArgs e) {
-            double bottom;
-            var check = double.TryParse(tbBottom.Text, out bottom);
-            tableConfig.bottom = check == true ? bottom : 0;
-            SizeChange?.Invoke(tableConfig);
-        }
 
         private void tbBall_TextChanged(object sender, TextChangedEventArgs e) {
             double ball;
