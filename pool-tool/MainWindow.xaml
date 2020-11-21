@@ -93,7 +93,7 @@
                  PreviewMouseLeftButtonUp="brdTable_PreviewMouseLeftButtonUp">
             <Canvas x:Name="cvTable">
                 <Ellipse x:Name="ellipse1" Height="{Binding Path=ballSize}" Width="{Binding Path=ballSize}" 
-                         Stroke="#ff1ffb" StrokeThickness="0.7"
+                         Stroke="Red" StrokeThickness="1"
                          Visibility="Hidden" IsEnabled="False"
                          MouseDown="ellipse1_MouseDown"
                          MouseUp="ellipse1_MouseUp"
@@ -104,7 +104,7 @@
 
                 </Ellipse>
                 <Ellipse x:Name="ellipse2" Height="{Binding Path=ballSize}" Width="{Binding Path=ballSize}" 
-                         Stroke="#12ff81" StrokeThickness="0.7"
+                         Stroke="Black" StrokeThickness="1"
                          Visibility="Hidden" IsEnabled="False"
                          MouseDown="ellipse1_MouseDown"
                          MouseUp="ellipse1_MouseUp"
@@ -114,20 +114,20 @@
                     </Ellipse.Fill>
 
                 </Ellipse>
-                <Line x:Name="line1" Stroke="Black" Opacity="0.6" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="1.5"/>
-                <Line x:Name="line2" Stroke="Black" Opacity="0.6" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="1.5"/>
+                <Line x:Name="line1" Stroke="Black" Opacity="0.6" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                <Line x:Name="line2" Stroke="Black" Opacity="0.6" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
                 <Ellipse x:Name="ellipseMove" Height="17" Width="17" Stroke="White" Fill="#6dff2e"
                          MouseLeftButtonDown="ellipseMove_MouseLeftButtonDown"
                          MouseLeftButtonUp="ellipseMove_MouseLeftButtonUp" Visibility="Hidden" IsEnabled="False"
                          MouseMove="ellipseMove_MouseMove">
 
                 </Ellipse>
-                <Line x:Name="line" Stroke="#daff21" Opacity="0.7" StrokeEndLineCap="Triangle" StrokeStartLineCap="Square" StrokeThickness="1.5"/>
-                <Line x:Name="line3" Stroke="#daff21" Opacity="0.7" StrokeEndLineCap="Triangle" StrokeStartLineCap="Square" StrokeThickness="1.5"/>
-                
-                <Line x:Name="line4" Stroke="Black" Opacity="0.7" StrokeEndLineCap="Triangle" StrokeStartLineCap="Square" StrokeThickness="1.5"/>
+                <Line x:Name="line" Stroke="#daff21" Opacity="0.7" StrokeEndLineCap="Triangle" StrokeStartLineCap="Square" StrokeThickness="3"/>
+                <Line x:Name="line3" Stroke="#daff21" Opacity="0.7" StrokeEndLineCap="Triangle" StrokeStartLineCap="Square" StrokeThickness="3"/>
 
-                <Path x:Name="pathLines" Stroke="#daff21" Opacity="0.7" StrokeEndLineCap="Triangle" StrokeStartLineCap="Square" StrokeThickness="1.5" />
+                <Line x:Name="line4" Stroke="#daff21" Opacity="0.7" StrokeEndLineCap="Triangle" StrokeStartLineCap="Square" StrokeThickness="3"/>
+
+                <Path x:Name="pathLines" Stroke="#daff21" Opacity="0.7" StrokeEndLineCap="Triangle" StrokeStartLineCap="Square" StrokeThickness="3" />
             </Canvas>
         </Border>
         <!--#endregion-->

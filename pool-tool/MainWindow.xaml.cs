@@ -72,16 +72,22 @@ namespace pool_tool {
             line3.X1 = e1Pos.X;
             line3.Y1 = e1Pos.Y;
 
+            line4.X1 = line3.X1;
+            line4.Y1 = line3.Y1;
+
             Point crossPos;
             if (btnCurPressed == btnDownArrow.Name) {
                 crossPos = Helper.intersectionPos(e1Pos, new Point(e2Pos.X, cvTable.ActualHeight),
                                                   e2Pos, new Point(e1Pos.X, cvTable.ActualHeight));
                 line2.X1 = crossPos.X;
                 line2.Y1 = cvTable.ActualHeight;
-                
+
                 // for trick shot
                 line3.X2 = crossPos.X + (crossPos.X - e1Pos.X);
                 line3.Y2 = cvTable.ActualHeight;
+
+                line4.X2 = crossPos.X + (crossPos.X - e1Pos.X) * 3;
+                line4.Y2 = cvTable.ActualHeight;
 
                 crossPos = Helper.intersectionPos(new Point(0, cvTable.ActualHeight + 20), new Point(cvTable.ActualWidth, cvTable.ActualHeight + 20),
                                                         new Point(crossPos.X, cvTable.ActualHeight), new Point(e1Pos.X, e1Pos.Y));
@@ -98,6 +104,9 @@ namespace pool_tool {
                 line3.X2 = crossPos.X + (crossPos.X - e1Pos.X);
                 line3.Y2 = 0;
 
+                line4.X2 = crossPos.X + (crossPos.X - e1Pos.X) * 3;
+                line4.Y2 = 0;
+
                 crossPos = Helper.intersectionPos(new Point(0, -20), new Point(cvTable.ActualWidth, -20),
                                                         new Point(crossPos.X, 0), new Point(e1Pos.X, e1Pos.Y));
                 line1.X2 = crossPos.X;
@@ -112,7 +121,11 @@ namespace pool_tool {
 
                 // for trick shot
                 line3.X2 = 0;
-                line3.Y2 = crossPos.Y + (crossPos.Y - e1Pos.Y); ;
+                line3.Y2 = crossPos.Y + (crossPos.Y - e1Pos.Y);
+
+                // for trick shot
+                line4.X2 = 0;
+                line4.Y2 = crossPos.Y + (crossPos.Y - e1Pos.Y) * 3;
 
                 crossPos = Helper.intersectionPos(new Point(-20, 0), new Point(-20, cvTable.ActualHeight),
                                                         new Point(0, crossPos.Y), new Point(e1Pos.X, e1Pos.Y));
@@ -128,7 +141,10 @@ namespace pool_tool {
 
                 // for trick shot
                 line3.X2 = cvTable.ActualWidth;
-                line3.Y2 = crossPos.Y + (crossPos.Y - e1Pos.Y); ;
+                line3.Y2 = crossPos.Y + (crossPos.Y - e1Pos.Y);
+
+                line4.X2 = cvTable.ActualWidth;
+                line4.Y2 = crossPos.Y + (crossPos.Y - e1Pos.Y) * 3;
 
 
                 crossPos = Helper.intersectionPos(new Point(cvTable.ActualWidth + 20, 0), new Point(cvTable.ActualWidth + 20, cvTable.ActualHeight),
@@ -228,7 +244,7 @@ namespace pool_tool {
                 Helper.disableEllipse(ellipse1);
                 btnCurPressed = "";
             }
-            brdTable.Padding = new Thickness(newTable.ballSize / 2 - 2);
+            brdTable.Padding = new Thickness(newTable.ballSize/2 - 2);
         }
 
         #endregion
@@ -295,9 +311,13 @@ namespace pool_tool {
             }
             Helper.resetLinePos(line1);
             Helper.resetLinePos(line2);
+
+            Helper.resetLinePos(line3);
+            Helper.resetLinePos(line4);
+
             Helper.disableEllipse(ellipseMove);
             Helper.disablePath(pathLines);
-            Helper.cleanCanvasChild(cvTable, 7, cvTable.Children.Count - 7);
+            Helper.cleanCanvasChild(cvTable, 9, cvTable.Children.Count - 9);
             btnCurPressed = "";
         }
 
@@ -305,6 +325,8 @@ namespace pool_tool {
             btnCurPressed = btnDownArrow.Name;
             Helper.resetLinePos(line1);
             Helper.resetLinePos(line2);
+            Helper.resetLinePos(line3);
+            Helper.resetLinePos(line4);
             Helper.endableEllipse(ellipse1);
             Helper.endableEllipse(ellipse2);
             updateDirectLine();
@@ -318,8 +340,10 @@ namespace pool_tool {
             Helper.resetLinePos(line);
             Helper.resetLinePos(line1);
             Helper.resetLinePos(line2);
+            Helper.resetLinePos(line3);
+            Helper.resetLinePos(line4);
 
-            Helper.cleanCanvasChild(cvTable, 7, cvTable.Children.Count - 7);
+            Helper.cleanCanvasChild(cvTable, 9, cvTable.Children.Count - 9);
             Helper.disablePath(pathLines);
             Helper.disableEllipse(ellipseMove);
             btnCurPressed = "";
@@ -330,6 +354,9 @@ namespace pool_tool {
             btnCurPressed = btnUpArrow.Name;
             Helper.resetLinePos(line1);
             Helper.resetLinePos(line2);
+            Helper.resetLinePos(line3);
+            Helper.resetLinePos(line4);
+
             Helper.endableEllipse(ellipse1);
             Helper.endableEllipse(ellipse2);
             updateDirectLine();
@@ -339,6 +366,8 @@ namespace pool_tool {
             btnCurPressed = btnRightArrow.Name;
             Helper.resetLinePos(line1);
             Helper.resetLinePos(line2);
+            Helper.resetLinePos(line3);
+            Helper.resetLinePos(line4);
 
             Helper.endableEllipse(ellipse1);
             Helper.endableEllipse(ellipse2);
@@ -349,6 +378,9 @@ namespace pool_tool {
             btnCurPressed = btnLeftArrow.Name;
             Helper.resetLinePos(line1);
             Helper.resetLinePos(line2);
+
+            Helper.resetLinePos(line3);
+            Helper.resetLinePos(line4);
 
             Helper.endableEllipse(ellipse1);
             Helper.endableEllipse(ellipse2);
@@ -596,16 +628,16 @@ namespace pool_tool {
             var ePos = ellipsePressed.TransformToAncestor(cvTable).Transform(new Point(0, 0));
             switch (e.Key) {
                 case Key.A:
-                    Canvas.SetLeft(ellipsePressed, ePos.X - 0.7);
+                    Canvas.SetLeft(ellipsePressed, ePos.X - 0.8);
                     break;
                 case Key.W:
-                    Canvas.SetTop(ellipsePressed, ePos.Y - 0.7);
+                    Canvas.SetTop(ellipsePressed, ePos.Y - 0.8);
                     break;
                 case Key.D:
-                    Canvas.SetLeft(ellipsePressed, ePos.X + 0.7);
+                    Canvas.SetLeft(ellipsePressed, ePos.X + 0.8);
                     break;
                 case Key.S:
-                    Canvas.SetTop(ellipsePressed, ePos.Y + 0.7);
+                    Canvas.SetTop(ellipsePressed, ePos.Y + 0.8);
                     break;
                 case Key.C:
                     btnClear_Click(sender, e);
