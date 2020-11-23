@@ -6,7 +6,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:pool_tool.Modules"
-        mc:Ignorable="d" WindowStartupLocation="CenterScreen" AllowsTransparency="True"
+        mc:Ignorable="d" WindowStartupLocation="Manual" AllowsTransparency="True"
         Title="Table Config" Height="150" Width="160" WindowStyle="None"
         Loaded="Window_Loaded" BorderThickness="0" Background="Transparent">
     <Border CornerRadius="10">

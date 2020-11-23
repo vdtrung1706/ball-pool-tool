@@ -15,49 +15,47 @@ using System.Windows.Shapes;
 using pool_tool.Class;
 
 namespace pool_tool.Modules {
-    /// <summary>
-    /// Interaction logic for SettingWindow.xaml
-    /// </summary>
-    public partial class SettingWindow : Window {
-        TableConfig oldTable = new TableConfig();
-        TableConfig tableConfig;
-        public SettingWindow(TableConfig oldTable) {
-            InitializeComponent();
+   /// <summary>
+   /// Interaction logic for SettingWindow.xaml
+   /// </summary>
+   public partial class SettingWindow : Window {
+      readonly TableConfig oldTable = new TableConfig();
+      readonly TableConfig tableConfig;
+      public SettingWindow(TableConfig oldTable) {
+         InitializeComponent();
 
-            this.oldTable = oldTable;
-            tableConfig = new TableConfig() {
-                height = oldTable.height,
-                width = oldTable.width,
-                top = oldTable.top,
-                left = oldTable.left,
-                ballSize = oldTable.ballSize
-            };
-        }
+         this.oldTable = oldTable;
+         tableConfig = new TableConfig() {
+            height = oldTable.height,
+            width = oldTable.width,
+            top = oldTable.top,
+            left = oldTable.left,
+            ballSize = oldTable.ballSize
+         };
+      }
 
-        public delegate void TableChangeDelegate(TableConfig newTable, string mess = "");
-        public event TableChangeDelegate SizeChange;
+      public delegate void TableChangeDelegate(TableConfig newTable, string mess = "");
+      public event TableChangeDelegate SizeChange;
 
-        private void Window_Loaded(object sender, RoutedEventArgs e) {
-            tbBall.Text = tableConfig.ballSize.ToString();
-        }
+      private void Window_Loaded(object sender, RoutedEventArgs e) {
+         tbBall.Text = tableConfig.ballSize.ToString();
+      }
 
+      private void tbBall_TextChanged(object sender, TextChangedEventArgs e) {
+         double ball;
+         var check = double.TryParse(tbBall.Text, out ball);
+         tableConfig.ballSize = check == true ? ball : 0;
+         SizeChange?.Invoke(tableConfig);
+      }
 
-        private void tbBall_TextChanged(object sender, TextChangedEventArgs e) {
-            double ball;
-            var check = double.TryParse(tbBall.Text, out ball);
-            tableConfig.ballSize = check == true ? ball : 0;
-            SizeChange?.Invoke(tableConfig);
-        }
+      private void btnSave_Click(object sender, RoutedEventArgs e) {
+         SizeChange?.Invoke(tableConfig, "save");
+         Close();
+      }
 
-        private void btnSave_Click(object sender, RoutedEventArgs e) {
-            SizeChange?.Invoke(tableConfig, "save");
-            this.Close();
-        }
-
-        private void btnCancel_Click(object sender, RoutedEventArgs e) {
-            SizeChange?.Invoke(oldTable, "cancel");
-            this.Close();
-        }
-
-    }
+      private void btnCancel_Click(object sender, RoutedEventArgs e) {
+         SizeChange?.Invoke(oldTable, "cancel");
+         Close();
+      }
+   }
 }
