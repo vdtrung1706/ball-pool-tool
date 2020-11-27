@@ -16,15 +16,16 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace pool_tool.Class {
+
    public class Helper {
 
       public static Point intersectPos(Point a, Point b, Point c, Point d) {
-         // Line AB represented as a1x + b1y = c1  
+         // Line AB represented as a1x + b1y = c1
          double a1 = b.Y - a.Y;
          double b1 = a.X - b.X;
          double c1 = a1 * (a.X) + b1 * (a.Y);
 
-         // Line CD represented as a2x + b2y = c2  
+         // Line CD represented as a2x + b2y = c2
          double a2 = d.Y - c.Y;
          double b2 = c.X - d.X;
          double c2 = a2 * (c.X) + b2 * (c.Y);
@@ -32,8 +33,8 @@ namespace pool_tool.Class {
          double determinant = a1 * b2 - a2 * b1;
 
          if (determinant == 0) {
-            // The lines are parallel. This is simplified  
-            // by returning a pair of FLT_MAX  
+            // The lines are parallel. This is simplified
+            // by returning a pair of FLT_MAX
             return new Point(double.MaxValue, double.MaxValue);
          } else {
             double x = (b2 * c1 - b1 * c2) / determinant;
@@ -43,6 +44,7 @@ namespace pool_tool.Class {
       }
 
       #region ELLIPSE
+
       public static void disableEllipses(Ellipse ellipse) {
          ellipse.Visibility = Visibility.Hidden;
          ellipse.IsEnabled = false;
@@ -77,8 +79,8 @@ namespace pool_tool.Class {
          var pos = ellipse.TransformToAncestor(canvas).Transform(new Point(0, 0));
          return new Point(pos.X + ellipse.Height / 2, pos.Y + ellipse.Width / 2);
       }
-      #endregion
 
+      #endregion ELLIPSE
 
       public static void removeCanvasChild(Canvas canvas, int index, int count) => canvas.Children.RemoveRange(index, count);
 
@@ -127,7 +129,7 @@ namespace pool_tool.Class {
       }
 
       public static double distance(Point pos1, Point pos2) {
-         // Calculating distance 
+         // Calculating distance
          return Math.Sqrt(Math.Pow(pos2.X - pos1.X, 2) +
                          Math.Pow(pos2.Y - pos1.Y, 2) * 1.0);
       }
@@ -156,148 +158,149 @@ namespace pool_tool.Class {
          var touchPos = new Point();
          var touchPos2 = new Point();
 
-         var topLeft = new Point(0, 0);
-         var topRight = new Point(table.ActualWidth + el.Height / 2, 0);
-         var botLeft = new Point(0, table.ActualHeight);
-         var botRight = new Point(table.ActualWidth, table.ActualHeight);
+         var topLeft = new Point(-el.Height / 2, -el.Height / 2);
+         var topRight = new Point(table.ActualWidth + el.Height / 2, -el.Height / 2);
+         var botLeft = new Point(-el.Height / 2, table.ActualHeight + el.Height / 2);
+         var botRight = new Point(table.ActualWidth + el.Height / 2, table.ActualHeight + el.Height / 2);
 
          var secondPos = curPos;
          // top
-         if (curPos.X >= 0 && curPos.X <= table.ActualWidth && curPos.Y <= 0) {
-            secondPos.Y = 0;
+         if (curPos.X >= -el.Height / 2 && curPos.X <= table.ActualWidth + el.Height / 2 && curPos.Y <= -el.Height / 2) {
+            secondPos.Y = -el.Height / 2;
             if (secondPos.X < ballPos.X) {
-               symPos = new Point(-secondPos.X, 0);
+               symPos = new Point(-el.Height / 2 - secondPos.X, -el.Height / 2);
                missingPos = missingPoint(ballPos, secondPos, symPos);
                touchPos = intersectPos(topLeft, botLeft, symPos, missingPos);
-               if (touchPos.Y > table.ActualHeight) {
+               if (touchPos.Y > table.ActualHeight + el.Height / 2) {
                   touchPos = intersectPos(touchPos, secondPos, botLeft, botRight);
                }
 
-               symPos = new Point(-secondPos.X * 2, 0);
+               symPos = new Point((-el.Height / 2 - secondPos.X) * 2, -el.Height / 2);
                missingPos = missingPoint(ballPos, secondPos, symPos);
                touchPos2 = intersectPos(topRight, botRight, symPos, missingPos);
-               if (touchPos2.Y > table.ActualHeight) {
+               if (touchPos2.Y > table.ActualHeight + el.Height / 2) {
                   touchPos2 = intersectPos(touchPos, touchPos2, botRight, botLeft);
                }
             } else if (secondPos.X > ballPos.X) {
-               symPos = new Point(table.ActualWidth + (table.ActualWidth - secondPos.X), 0);
+               symPos = new Point(table.ActualWidth + el.Height / 2 + (table.ActualWidth + el.Height / 2 - secondPos.X), -el.Height / 2);
                missingPos = missingPoint(ballPos, secondPos, symPos);
                touchPos = intersectPos(topRight, botRight, symPos, missingPos);
-               if (touchPos.Y > table.ActualHeight) {
+               if (touchPos.Y > table.ActualHeight + el.Height / 2) {
                   touchPos = intersectPos(botLeft, botRight, secondPos, touchPos);
                }
 
-               symPos = new Point(table.ActualWidth + (table.ActualWidth - secondPos.X) * 2, 0);
+               symPos = new Point(table.ActualWidth + el.Height / 2 + (table.ActualWidth + el.Height / 2 - secondPos.X) * 2, -el.Height / 2);
                missingPos = missingPoint(ballPos, secondPos, symPos);
                touchPos2 = intersectPos(topLeft, botLeft, symPos, missingPos);
-               if (touchPos2.Y > table.ActualHeight) {
+               if (touchPos2.Y > table.ActualHeight + el.Height / 2) {
                   touchPos2 = intersectPos(botLeft, botRight, touchPos, touchPos2);
                }
             }
          }
          // bottom
-         else if (curPos.X >= 0 && curPos.X <= table.ActualWidth && curPos.Y >= table.ActualHeight) {
-            secondPos.Y = table.ActualHeight;
+         else if (curPos.X >= -el.Height / 2 && curPos.X <= table.ActualWidth + el.Height / 2 && curPos.Y >= table.ActualHeight + el.Height / 2) {
+            secondPos.Y = table.ActualHeight + el.Height / 2;
             if (secondPos.X < ballPos.X) {
-               symPos = new Point(-secondPos.X, table.ActualHeight);
+               symPos = new Point(-el.Height / 2 - secondPos.X, table.ActualHeight + el.Height / 2);
                missingPos = missingPoint(ballPos, secondPos, symPos);
                touchPos = intersectPos(botLeft, topLeft, symPos, missingPos);
-               if (touchPos.Y < 0) {
+               if (touchPos.Y < -el.Height / 2) {
                   touchPos = intersectPos(topLeft, topRight, secondPos, touchPos);
                }
 
-               symPos = new Point(-secondPos.X * 2, table.ActualHeight);
+               symPos = new Point((-el.Height / 2 - secondPos.X) * 2, table.ActualHeight + el.Height / 2);
                missingPos = missingPoint(ballPos, secondPos, symPos);
                touchPos2 = intersectPos(topRight, botRight, symPos, missingPos);
-               if (touchPos2.Y < 0) {
+               if (touchPos2.Y < -el.Height / 2) {
                   touchPos2 = intersectPos(topLeft, topRight, touchPos2, touchPos);
                }
             } else if (secondPos.X > ballPos.X) {
-               symPos = new Point(table.ActualWidth + (table.ActualWidth - secondPos.X), table.ActualHeight);
+               symPos = new Point(table.ActualWidth + el.Height / 2 +
+                  (table.ActualWidth + el.Height / 2 - secondPos.X), table.ActualHeight + el.Height / 2);
                missingPos = missingPoint(ballPos, secondPos, symPos);
                touchPos = intersectPos(botRight, topRight, symPos, missingPos);
-               if (touchPos.Y < 0) {
+               if (touchPos.Y < -el.Height / 2) {
                   touchPos = intersectPos(topLeft, topRight, secondPos, touchPos);
                }
 
-               symPos = new Point(table.ActualWidth + (table.ActualWidth - secondPos.X) * 2, table.ActualHeight);
+               symPos = new Point(table.ActualWidth + el.Height / 2 +
+                  (table.ActualWidth + el.Height / 2 - secondPos.X) * 2, table.ActualHeight + el.Height / 2);
                missingPos = missingPoint(ballPos, secondPos, symPos);
                touchPos2 = intersectPos(topLeft, botLeft, symPos, missingPos);
-               if (touchPos2.Y < 0) {
+               if (touchPos2.Y < -el.Height / 2) {
                   touchPos2 = intersectPos(topLeft, topRight, touchPos2, touchPos);
                }
             }
          }
          // left
-         else if (curPos.X <= 0 && curPos.Y >= 0 && curPos.Y <= table.ActualHeight) {
-            secondPos.X = 0;
+         else if (curPos.X <= -el.Height / 2 && curPos.Y >= -el.Height / 2 && curPos.Y <= table.ActualHeight + el.Height / 2) {
+            secondPos.X = -el.Height / 2;
             if (secondPos.Y < ballPos.Y) {
-               symPos = new Point(0, -secondPos.Y);
+               symPos = new Point(-el.Height / 2, -el.Height / 2 - secondPos.Y);
                missingPos = missingPoint(ballPos, secondPos, symPos);
                touchPos = intersectPos(topLeft, topRight, symPos, missingPos);
 
-               if (touchPos.X > table.ActualWidth) {
+               if (touchPos.X > table.ActualWidth + el.Height / 2) {
                   touchPos = intersectPos(touchPos, secondPos, topRight, botRight);
                }
 
-               symPos = new Point(0, -secondPos.Y * 2);
+               symPos = new Point(-el.Height / 2, (-el.Height / 2 - secondPos.Y) * 2);
                missingPos = missingPoint(ballPos, secondPos, symPos);
                touchPos2 = intersectPos(botRight, botLeft, symPos, missingPos);
-               if (touchPos2.X > table.ActualWidth) {
+               if (touchPos2.X > table.ActualWidth + el.Height / 2) {
                   touchPos2 = intersectPos(touchPos, touchPos2, topRight, botRight);
                }
-
             } else if (secondPos.Y > ballPos.Y) {
-               symPos = new Point(0, table.ActualHeight + (table.ActualHeight - secondPos.Y));
+               symPos = new Point(-el.Height / 2, table.ActualHeight + el.Height / 2 + (table.ActualHeight + el.Height / 2 - secondPos.Y));
                missingPos = missingPoint(ballPos, secondPos, symPos);
                touchPos = intersectPos(botLeft, botRight, symPos, missingPos);
-               if (touchPos.X > table.ActualWidth) {
+               if (touchPos.X > table.ActualWidth + el.Height / 2) {
                   touchPos = intersectPos(touchPos, secondPos, topRight, botRight);
                }
 
-               symPos = new Point(0, table.ActualHeight + (table.ActualHeight - secondPos.Y) * 2);
+               symPos = new Point(-el.Height / 2, table.ActualHeight + el.Height / 2 + (table.ActualHeight + el.Height / 2 - secondPos.Y) * 2);
                missingPos = missingPoint(ballPos, secondPos, symPos);
                touchPos2 = intersectPos(topLeft, topRight, symPos, missingPos);
-               if (touchPos2.X > table.ActualWidth) {
+               if (touchPos2.X > table.ActualWidth + el.Height / 2) {
                   touchPos2 = intersectPos(touchPos, touchPos2, topRight, botRight);
                }
             }
          }
          // right
-         else if (curPos.X >= table.ActualWidth && curPos.Y >= 0 && curPos.Y <= table.ActualHeight) {
-            secondPos.X = table.ActualWidth;
+         else if (curPos.X >= table.ActualWidth + el.Height / 2 && curPos.Y >= -el.Height / 2 && curPos.Y <= table.ActualHeight + el.Height / 2) {
+            secondPos.X = table.ActualWidth + el.Height / 2;
             if (secondPos.Y < ballPos.Y) {
-               symPos = new Point(table.ActualWidth, 0 - secondPos.Y);
+               symPos = new Point(table.ActualWidth + el.Height / 2, -el.Height / 2 - secondPos.Y);
                missingPos = missingPoint(ballPos, secondPos, symPos);
                touchPos = intersectPos(topLeft, topRight, symPos, missingPos);
 
-
-               if (touchPos.X < 0) {
+               if (touchPos.X < -el.Height / 2) {
                   touchPos = intersectPos(touchPos, secondPos, topLeft, botLeft);
                }
 
-               symPos = new Point(table.ActualWidth, 0 - secondPos.Y * 2);
+               symPos = new Point(table.ActualWidth + el.Height / 2, (-el.Height / 2 - secondPos.Y) * 2);
                missingPos = missingPoint(ballPos, secondPos, symPos);
 
                touchPos2 = intersectPos(botLeft, botRight, symPos, missingPos);
 
-
-               if (touchPos2.X < 0) {
+               if (touchPos2.X < -el.Height / 2) {
                   touchPos2 = intersectPos(touchPos, touchPos2, topLeft, botLeft);
                }
-
             } else if (secondPos.Y > ballPos.Y) {
-               symPos = new Point(table.ActualWidth, table.ActualHeight + (table.ActualHeight - secondPos.Y));
+               symPos = new Point(table.ActualWidth + el.Height / 2,
+                  table.ActualHeight + el.Height / 2 + (table.ActualHeight + el.Height / 2 - secondPos.Y));
                missingPos = missingPoint(ballPos, secondPos, symPos);
                touchPos = intersectPos(botLeft, botRight, symPos, missingPos);
 
-               if (touchPos.X < 0) {
+               if (touchPos.X < -el.Height / 2) {
                   touchPos = intersectPos(touchPos, secondPos, topLeft, botLeft);
                }
-               symPos = new Point(table.ActualWidth, table.ActualHeight + (table.ActualHeight - secondPos.Y) * 2);
+
+               symPos = new Point(table.ActualWidth + el.Height / 2,
+                  table.ActualHeight + el.Height / 2 + (table.ActualHeight + el.Height / 2 - secondPos.Y) * 2);
                missingPos = missingPoint(ballPos, secondPos, symPos);
                touchPos2 = intersectPos(topLeft, topRight, symPos, missingPos);
-               if (touchPos2.X < 0) {
+               if (touchPos2.X < -el.Height / 2) {
                   touchPos2 = intersectPos(touchPos, touchPos2, topLeft, botLeft);
                }
             }
@@ -306,6 +309,39 @@ namespace pool_tool.Class {
          points.Add(secondPos);
          points.Add(touchPos);
          points.Add(touchPos2);
+         return points;
+      }
+
+      public static List<Point> getPoints(Point ballPos, Point curPos, Canvas table, int count) {
+         List<Point> points = new List<Point>();
+         var firstPos = ballPos;
+         var secondPos = curPos;
+         points.Add(firstPos);
+
+         // top
+         if (curPos.X >= 0 && curPos.X <= table.ActualWidth && curPos.Y <= 0) {
+            secondPos.Y = 0;
+         }
+         // bottom
+         else if (curPos.X >= 0 && curPos.X <= table.ActualWidth && curPos.Y >= table.ActualHeight) {
+            secondPos.Y = table.ActualHeight;
+         }
+         // left
+         else if (curPos.X <= 0 && curPos.Y >= 0 && curPos.Y <= table.ActualHeight) {
+            secondPos.X = 0;
+         }
+         // right
+         else if (curPos.X >= table.ActualWidth && curPos.Y >= 0 && curPos.Y <= table.ActualHeight) {
+            secondPos.X = table.ActualWidth;
+         }
+         points.Add(secondPos);
+
+         for (int i = 0; i < count; i++) {
+            var nextPos = Helper.nextPos(firstPos, secondPos, table);
+            points.Add(nextPos);
+            firstPos = secondPos;
+            secondPos = nextPos;
+         }
          return points;
       }
 

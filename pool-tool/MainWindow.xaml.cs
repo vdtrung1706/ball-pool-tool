@@ -29,10 +29,12 @@ using System.Runtime.ExceptionServices;
 using MaterialDesignThemes.Wpf.Converters;
 
 namespace pool_tool {
+
    /// <summary>
    /// Interaction logic for MainWindow.xaml
    /// </summary>
    public partial class MainWindow : Window {
+
       public MainWindow() {
          InitializeComponent();
       }
@@ -48,7 +50,6 @@ namespace pool_tool {
       private int featurePressed = 1;
 
       private void updateDirectLine() {
-
          Helper.disablePath(pathRails);
 
          if (btnCurPressed == "" || !ellipse1.IsEnabled || !ellipse2.IsEnabled || btnCurPressed == btnLongLine.Name) {
@@ -90,8 +91,8 @@ namespace pool_tool {
             line4.Y2 = cvTable.ActualHeight;
 
             crossPos = Helper.intersectPos(
-               new Point(0, cvTable.ActualHeight + 20),
-               new Point(cvTable.ActualWidth, cvTable.ActualHeight + 20),
+               new Point(0, cvTable.ActualHeight + 40),
+               new Point(cvTable.ActualWidth, cvTable.ActualHeight + 40),
                new Point(crossPos.X, cvTable.ActualHeight),
                new Point(e1Pos.X, e1Pos.Y
             ));
@@ -117,15 +118,14 @@ namespace pool_tool {
             line4.Y2 = 0;
 
             crossPos = Helper.intersectPos(
-               new Point(0, -20),
-               new Point(cvTable.ActualWidth, -20),
+               new Point(0, -40),
+               new Point(cvTable.ActualWidth, -40),
                new Point(crossPos.X, 0),
                new Point(e1Pos.X, e1Pos.Y)
             );
 
             line1.X2 = crossPos.X;
             line1.Y2 = crossPos.Y;
-
          } else if (btnCurPressed == btnLeftArrow.Name) {
             crossPos = Helper.intersectPos(
                e1Pos,
@@ -146,8 +146,8 @@ namespace pool_tool {
             line4.Y2 = crossPos.Y + (crossPos.Y - e1Pos.Y) * 2;
 
             crossPos = Helper.intersectPos(
-               new Point(-20, 0),
-               new Point(-20, cvTable.ActualHeight),
+               new Point(-40, 0),
+               new Point(-40, cvTable.ActualHeight),
                new Point(0, crossPos.Y),
                new Point(e1Pos.X, e1Pos.Y)
             );
@@ -173,8 +173,8 @@ namespace pool_tool {
             line4.Y2 = crossPos.Y + (crossPos.Y - e1Pos.Y) * 2;
 
             crossPos = Helper.intersectPos(
-               new Point(cvTable.ActualWidth + 20, 0),
-               new Point(cvTable.ActualWidth + 20, cvTable.ActualHeight),
+               new Point(cvTable.ActualWidth + 40, 0),
+               new Point(cvTable.ActualWidth + 40, cvTable.ActualHeight),
                new Point(cvTable.ActualWidth, crossPos.Y),
                new Point(e1Pos.X, e1Pos.Y)
             );
@@ -185,7 +185,9 @@ namespace pool_tool {
       }
 
       private void Window_Loaded(object sender, RoutedEventArgs e) {
+
          #region READ FILE SETTING
+
          var line = "";
          using (var tableFile = new StreamReader("./Data/table-config.txt")) {
             while ((line = tableFile.ReadLine()) != null) {
@@ -197,15 +199,19 @@ namespace pool_tool {
                   case "height":
                      tableConfig.height = value;
                      break;
+
                   case "width":
                      tableConfig.width = value;
                      break;
+
                   case "top":
                      tableConfig.top = value;
                      break;
+
                   case "left":
                      tableConfig.left = value;
                      break;
+
                   case "ball":
                      tableConfig.ballSize = value;
                      break;
@@ -222,6 +228,7 @@ namespace pool_tool {
                   case "top":
                      menuConfig.top = value;
                      break;
+
                   case "left":
                      menuConfig.left = value;
                      break;
@@ -241,12 +248,13 @@ namespace pool_tool {
          Canvas.SetTop(brdMenu, menuConfig.top);
 
          ellipsePressed = ellipse1;
-         #endregion
+
+         #endregion READ FILE SETTING
       }
 
       #region MENU
-      private void SettingScreen_SizeChange(TableConfig newTable, string mess = "") {
 
+      private void SettingScreen_SizeChange(TableConfig newTable, string mess = "") {
          brdTable.DataContext = newTable;
          ellipse1.DataContext = ellipse2.DataContext = newTable;
 
@@ -258,7 +266,6 @@ namespace pool_tool {
             tableConfig.height = brdTable.ActualHeight;
             tableConfig.top = brdTablePos.Y;
             tableConfig.left = brdTablePos.X;
-
 
             writeSettingFile(tableConfig);
             brdTable.BorderThickness = new Thickness(0);
@@ -277,10 +284,10 @@ namespace pool_tool {
             brdTable.Padding = new Thickness(tableConfig.ballSize / 2);
          }
       }
-      #endregion
+
+      #endregion MENU
 
       #region MENU BUTTON
-
 
       private void writeSettingFile(TableConfig tableConfig) {
          using (StreamWriter writer = new StreamWriter("./Data/table-config.txt")) {
@@ -316,22 +323,14 @@ namespace pool_tool {
       }
 
       private void btnBalls_Click(object sender, RoutedEventArgs e) {
-         if (!ellipse2.IsEnabled) {
-            Helper.enableEllipses(ellipse1, ellipse2);
-            // set position of two balls
-            Canvas.SetLeft(ellipse1, (brdTable.ActualWidth / 2 - ellipse1.ActualWidth));
-            Canvas.SetTop(ellipse1, brdTable.ActualHeight / 2 - ellipse1.ActualHeight / 2);
+         btnClear_Click(sender, e);
+         Helper.enableEllipses(ellipse1, ellipse2);
+         // set position of two balls
+         Canvas.SetLeft(ellipse1, (brdTable.ActualWidth / 2 - ellipse1.ActualWidth));
+         Canvas.SetTop(ellipse1, brdTable.ActualHeight / 2 - ellipse1.ActualHeight / 2);
 
-            Canvas.SetLeft(ellipse2, (brdTable.ActualWidth / 2) + 1);
-            Canvas.SetTop(ellipse2, brdTable.ActualHeight / 2 - ellipse2.ActualHeight / 2);
-         } else {
-            Helper.disableEllipses(ellipse1, ellipse2);
-         }
-         Helper.disableLines(line1, line2, line3, line4);
-         Helper.disableEllipses(ellipseMove);
-         Helper.disablePath(pathRails);
-         Helper.removeCanvasChild(cvTable, 10, cvTable.Children.Count - 10);
-         btnCurPressed = "";
+         Canvas.SetLeft(ellipse2, (brdTable.ActualWidth / 2) + 1);
+         Canvas.SetTop(ellipse2, brdTable.ActualHeight / 2 - ellipse2.ActualHeight / 2);
       }
 
       private void btnDownArrow_Click(object sender, RoutedEventArgs e) {
@@ -374,16 +373,16 @@ namespace pool_tool {
       }
 
       private void btnLine_Click(object sender, RoutedEventArgs e) {
+         btnClear_Click(sender, e);
          btnCurPressed = oneLine.Name;
       }
 
-      #endregion
+      #endregion MENU BUTTON
 
       #region TWO BALLS
 
       private void ellipse1_MouseDown(object sender, MouseButtonEventArgs e) {
          var ellipse = sender as Ellipse;
-         //ellipseCurPressed = ellipse.Name;
          ellipsePressed = ellipse;
          if (e.LeftButton == MouseButtonState.Pressed && ellipse != null) {
             ellipse.CaptureMouse();
@@ -417,18 +416,10 @@ namespace pool_tool {
          Canvas.SetTop(ellipse, pos.Y - ellipse.Height / 2);
          updateDirectLine();
       }
-      #endregion
 
+      #endregion TWO BALLS
 
       private void brdTable_PreviewMouseMove(object sender, MouseEventArgs e) {
-         if (e.LeftButton == MouseButtonState.Pressed && btnCurPressed == oneLine.Name) {
-            var curPos = e.GetPosition(cvTable);
-            line.X2 = curPos.X;
-            line.Y2 = curPos.Y;
-         }
-      }
-
-      private void brdTable_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
          if (e.LeftButton == MouseButtonState.Pressed && btnCurPressed == oneLine.Name) {
             var curPos = e.GetPosition(cvTable);
             line.X1 = curPos.X;
@@ -436,20 +427,25 @@ namespace pool_tool {
          }
       }
 
-      private void brdTable_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
-         if (btnCurPressed == oneLine.Name) {
-            var newLine = new Line() {
-               Stroke = new SolidColorBrush(Colors.Black),
-               Opacity = 0.6,
-               StrokeThickness = 3,
-               X1 = line.X1,
-               Y1 = line.Y1,
-               X2 = line.X2,
-               Y2 = line.Y2
-            };
-            cvTable.Children.Add(newLine);
-            Helper.disableLines(line);
+      private void brdTable_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+         if (e.LeftButton == MouseButtonState.Pressed && btnCurPressed == oneLine.Name) {
+            var curPos = e.GetPosition(cvTable);
+            line.X2 = curPos.X;
+            line.Y2 = curPos.Y;
          }
+      }
+
+      private void brdTable_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
+         var newLine = new Line() {
+            X1 = line.X1,
+            Y1 = line.Y1,
+            X2 = line.X2,
+            Y2 = line.Y2,
+            Stroke = new SolidColorBrush(Colors.Black),
+            Opacity = 0.7,
+            StrokeThickness = 3
+         };
+         cvTable.Children.Add(newLine);
       }
 
       private void btnMove_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
@@ -492,20 +488,29 @@ namespace pool_tool {
       }
 
       private void ellipseMove_MouseMove(object sender, MouseEventArgs e) {
-         if (e.LeftButton == MouseButtonState.Pressed &&
-             (btnCurPressed == btnLongLine.Name
-             || btnThreeRails.Name == btnCurPressed
-             || btnCurPressed == btnTwoRails.Name)) {
-            updateTwoRails();
+         if (e.LeftButton == MouseButtonState.Pressed && ellipseMove.IsMouseCaptured) {
+            var curPos = Mouse.GetPosition(cvTable);
+            Canvas.SetLeft(ellipseMove, curPos.X - 5);
+            Canvas.SetTop(ellipseMove, curPos.Y - 5);
+            if (btnCurPressed == btnTwoRails.Name) {
+               updateTwoRails();
+            } else if (btnCurPressed == btnLongLine.Name) {
+               updateLongRails();
+            }
          }
       }
 
-      private void updateTwoRails() {
-         var curPos = Mouse.GetPosition(cvTable);
-         Canvas.SetLeft(ellipseMove, curPos.X - 5);
-         Canvas.SetTop(ellipseMove, curPos.Y - 5);
+      private void updateLongRails() {
+         var movePos = Helper.getEllipsePos(ellipseMove, cvTable);
          var ballPos = Helper.getEllipsePos(ellipse1, cvTable);
-         var points = Helper.getPoints(ballPos, curPos, cvTable, ellipse1);
+         var points = Helper.getPoints(ballPos, movePos, cvTable, 3);
+         Helper.enablePath(pathRails, points);
+      }
+
+      private void updateTwoRails() {
+         var ballPos = Helper.getEllipsePos(ellipse1, cvTable);
+         var movePos = Helper.getEllipsePos(ellipseMove, cvTable);
+         var points = Helper.getPoints(ballPos, movePos, cvTable, ellipse1);
          Helper.enablePath(pathRails, points);
       }
 
@@ -521,10 +526,10 @@ namespace pool_tool {
          Helper.enableEllipses(ellipse1, ellipseMove);
       }
 
-
       private void cornerTop_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
          if (e.LeftButton == MouseButtonState.Pressed) {
             cornerTop.CaptureMouse();
+            ellipsePressed = cornerTop;
          }
       }
 
@@ -553,6 +558,7 @@ namespace pool_tool {
 
       private void cornerBot_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
          if (e.LeftButton == MouseButtonState.Pressed) {
+            ellipsePressed = cornerBot;
             cornerBot.CaptureMouse();
          }
       }
@@ -581,52 +587,75 @@ namespace pool_tool {
       }
 
       private void mainWindow_KeyDown(object sender, KeyEventArgs e) {
-
-         var ePos = ellipsePressed.TransformToAncestor(cvTable).Transform(new Point(0, 0));
+         var ePos = new Point();
+         if (ellipsePressed != null) {
+            if (ellipsePressed == cornerBot || ellipsePressed == cornerTop) {
+               ePos = ellipsePressed.TransformToAncestor(cvBody).Transform(new Point(0, 0));
+            } else {
+               ePos = ellipsePressed.TransformToAncestor(cvTable).Transform(new Point(0, 0));
+            }
+         }
          switch (e.Key) {
-            case Key.D3:
+            case Key.F3:
                btnThreeRails_Click(sender, e);
                break;
-            case Key.D2:
+
+            case Key.F2:
                btnTwoRails_Click(sender, e);
                break;
+
             case Key.A:
-               Canvas.SetLeft(ellipsePressed, ePos.X - 1);
+               if (ePos != null) {
+                  Canvas.SetLeft(ellipsePressed, ePos.X - 1);
+               }
                break;
+
             case Key.W:
-               Canvas.SetTop(ellipsePressed, ePos.Y - 1);
+               if (ePos != null) {
+                  Canvas.SetTop(ellipsePressed, ePos.Y - 1);
+               }
                break;
+
             case Key.D:
-               Canvas.SetLeft(ellipsePressed, ePos.X + 1);
+               if (ePos != null) {
+                  Canvas.SetLeft(ellipsePressed, ePos.X + 1);
+               }
                break;
+
             case Key.S:
-               Canvas.SetTop(ellipsePressed, ePos.Y + 1);
+               if (ePos != null) {
+                  Canvas.SetTop(ellipsePressed, ePos.Y + 1);
+               }
                break;
+
             case Key.C:
                btnClear_Click(sender, e);
                break;
+
             case Key.B:
                btnBalls_Click(sender, e);
                break;
+
             case Key.F1:
                btnSetting_Click(sender, e);
                break;
+
             case Key.T:
                btnLongLine_Click(sender, e);
                break;
+
             case Key.L:
                btnLine_Click(sender, e);
                break;
+
             case Key.Tab:
                if (featurePressed == 5) {
                   featurePressed = 1;
                }
                if (featurePressed == 1) {
                   btnLeftArrow_Click(sender, e);
-
                } else if (featurePressed == 2) {
                   btnUpArrow_Click(sender, e);
-
                } else if (featurePressed == 3) {
                   btnRightArrow_Click(sender, e);
                } else {
@@ -635,21 +664,39 @@ namespace pool_tool {
                featurePressed++;
                break;
          }
+         Focus();
       }
 
       private void btnThreeRails_Click(object sender, RoutedEventArgs e) {
-
+         btnClear_Click(sender, e);
+         btnCurPressed = btnThreeRails.Name;
+         Canvas.SetLeft(ellipseMove, cvTable.ActualWidth / 2);
+         Canvas.SetTop(ellipseMove, 0);
+         Helper.enableEllipses(ellipse1, ellipseMove);
       }
 
       private void btnTwoRails_Click(object sender, RoutedEventArgs e) {
          btnClear_Click(sender, e);
          btnCurPressed = btnTwoRails.Name;
-         Canvas.SetLeft(ellipse1, cvTable.ActualWidth / 2);
-         Canvas.SetTop(ellipse1, cvTable.ActualHeight / 2);
          Canvas.SetLeft(ellipseMove, cvTable.ActualWidth / 2);
          Canvas.SetTop(ellipseMove, 0);
          Helper.enableEllipses(ellipse1, ellipseMove);
       }
-   }
 
+      private void mainWindow_KeyUp(object sender, KeyEventArgs e) {
+         if (e.Key == Key.A || e.Key == Key.W || e.Key == Key.S || e.Key == Key.D) {
+            updateDirectLine();
+            if (ellipsePressed == cornerBot || ellipsePressed == cornerTop) {
+               var cornerTopPos = cornerTop.TransformToAncestor(cvBody).Transform(new Point(0, 0));
+               var cornerBotPos = cornerBot.TransformToAncestor(cvBody).Transform(new Point(0, 0));
+               var newBorder = Helper.getBorder(cornerTopPos, cornerBotPos);
+               if (newBorder.Height > 0) {
+                  brdTable.Height = newBorder.Height;
+                  brdTable.Width = newBorder.Width;
+                  brdTable.Margin = newBorder.Margin;
+               }
+            }
+         }
+      }
+   }
 }
